@@ -1,12 +1,18 @@
 import React from "react";
+import ReactDOM from "react-dom/client";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
+import Home from "./pages/Home";
+import Register from "./pages/register";
+import NotFoundPage from "./pages/404";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-5xl font-bold">Hello world</h1>
-      <h1 className="text-3xl ">Hello world</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
