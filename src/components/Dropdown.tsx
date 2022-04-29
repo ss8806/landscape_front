@@ -1,6 +1,14 @@
 import React from "react";
 import { Menu, Transition } from "@headlessui/react";
 
+type Drop = {
+  align: any;
+  width: any;
+  contentClasses: any;
+  trigger: any;
+  children: any;
+};
+
 const Dropdown = ({
   align = "right",
   width = 48,
@@ -31,7 +39,7 @@ const Dropdown = ({
 
   return (
     <Menu as="div" className="relative">
-      {({ open }: any) => (
+      {({ open }) => (
         <>
           <Menu.Button as={React.Fragment}>{trigger}</Menu.Button>
           <Transition
