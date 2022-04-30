@@ -7,6 +7,8 @@ import Dashboard from "./pages/dashboard";
 import ForgetPassword from "./pages/forgot-password";
 import PasswordReset from "./pages/password-reset";
 import Mypage from "./pages/mypage/index";
+import Books from "./pages/books/index";
+import Articles from "./pages/articles/index";
 import NotFoundPage from "./pages/404";
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
       <Route path="/forgot-password" element={<ForgetPassword />} />
       <Route path="/password-reset/:token" element={<PasswordReset />} />
       <Route path="/mypage" element={<Mypage />} />
+      <Route path="/books" element={<Books />} />
+      <Route path="/articles" element={<Articles />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

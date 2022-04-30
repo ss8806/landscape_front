@@ -3,5 +3,10 @@ module.exports = {
   theme: {
     extend: {},
   },
+  minHeight: {
+    0: "0",
+    80: "80vh",
+    100: "100vh",
+  },
   plugins: [],
 };
