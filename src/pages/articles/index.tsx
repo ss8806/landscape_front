@@ -1,5 +1,4 @@
 import AppLayout from "../../components/Layouts/AppLayout";
-import { useAuth } from "../../hooks/auth";
 import { useEffect, useState } from "react";
 import axios from "../../lib/axios";
 
@@ -12,7 +11,6 @@ type Article = {
 };
 
 const Articles = () => {
-  // const { user } = useAuth({ middleware: "auth" });
   const [articles, setArticles] = useState<Article[]>([
     {
       id: 0,
@@ -22,6 +20,7 @@ const Articles = () => {
       category_id: "",
     },
   ]);
+
   useEffect(() => {
     axios
       .get("http://localhost:/api/articles/")
@@ -30,23 +29,24 @@ const Articles = () => {
   }, []);
 
   return (
-    <>
-      <AppLayout>
-        <section className="min-h-screen  text-center pb-10  ">
-          <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
-            {articles.map((article) => (
-              <>
-                <li key={article.id}>
-                  タイトル:{article.title}
-                  本文:{article.body}
-                  カテゴリー:{article.category_id}
-                </li>
-              </>
-            ))}
-          </div>
-        </section>
-      </AppLayout>
-    </>
+    <AppLayout>
+      <section className="min-h-screen  text-center pb-10  ">
+        <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
+          {articles.map((article) => (
+            <div key={article.id}>
+              <img
+                id="preview"
+                className="d-block mx-auto h-60 h-56"
+                src={`${process.env.PUBLIC_URL}/landscape.svg`}
+              />
+              <p>タイトル:{article.title}</p>
+              <p>本文:{article.body}</p>
+              <p>カテゴリー:{article.category_id}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </AppLayout>
   );
 };
 export default Articles;

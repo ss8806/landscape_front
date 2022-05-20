@@ -1,13 +1,13 @@
 import React from "react";
 import { Menu, Transition } from "@headlessui/react";
 
-type Drop = {
-  align: any;
-  width: any;
-  contentClasses: any;
-  trigger: any;
-  children: any;
-};
+// type Drop = {
+//   align: any;
+//   width: any;
+//   contentClasses: any;
+//   trigger: any;
+//   children: any;
+// };
 
 const Dropdown = ({
   align = "right",

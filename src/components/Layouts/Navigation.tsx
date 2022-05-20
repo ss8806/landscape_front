@@ -19,12 +19,19 @@ const Navigation = ({ user }: any) => {
               <CustomNavLink to="/articles">Landscape</CustomNavLink>
             </div>
           </div>
-          {/* Settings Dropdown */}
-          <MenuListComposition />
+          <div className="flex justify-between h-16">
+            <div className=" space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <Link to="/article/create" className="m-auto">
+                記事を投稿する
+              </Link>
+            </div>
+            {/* Settings Dropdown */}
+            <MenuListComposition />
+            <div />
+          </div>
         </div>
       </div>
     </nav>
   );
 };
-
 export default Navigation;

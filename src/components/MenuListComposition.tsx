@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import { useAuth } from "../hooks/auth";
+import { Link } from "react-router-dom";
 
 export default function MenuListComposition() {
   const { user, logout } = useAuth();
@@ -55,7 +56,7 @@ export default function MenuListComposition() {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack className="m-auto" direction="row" spacing={2}>
       <div>
         <Button
           style={{ textTransform: "none" }}
@@ -66,7 +67,7 @@ export default function MenuListComposition() {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          {user?.name}
+          {user ? <>{user?.name}</> : <>guest</>}
         </Button>
         <Popper
           open={open}
@@ -92,7 +93,13 @@ export default function MenuListComposition() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={logout}>Logout</MenuItem>
+                    {user ? (
+                      <MenuItem onClick={logout}>Logout</MenuItem>
+                    ) : (
+                      <MenuItem component={Link} to="/login">
+                        login
+                      </MenuItem>
+                    )}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

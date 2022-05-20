@@ -94,7 +94,7 @@ const Books = () => {
         </label>
         <label>
           作者:
-          {/* <input value={author} onChange={handleAuthorChange} /> */}
+          <input value={author} onChange={handleAuthorChange} />
         </label>
         <br />
         <button onClick={createNewBook}>作成</button>
