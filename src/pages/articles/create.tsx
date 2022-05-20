@@ -88,7 +88,7 @@ const CreateArticles = () => {
       .post("http://localhost:/api/article/store", {
         title: title,
         body: body,
-        user_id: user?.id,
+        user_id: user.id,
         category_id: selectedOption,
         pic1: pic1,
       })
