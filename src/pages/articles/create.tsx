@@ -10,6 +10,7 @@ type Article = {
   body: string;
   user_id: any;
   category_id: any;
+  pic1: any;
 };
 
 const CreateArticles = () => {
@@ -21,6 +22,7 @@ const CreateArticles = () => {
       body: "",
       user_id: "",
       category_id: "",
+      pic1: "",
     },
   ]);
 
@@ -28,6 +30,7 @@ const CreateArticles = () => {
   const [body, setBody] = useState<string>("");
   const [user_id, setUser_id] = useState<any>("");
   const [category_id, setCategory_id] = useState<any>("");
+  let [pic1, setPic1] = useState<any>("");
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -37,8 +40,47 @@ const CreateArticles = () => {
     setBody(e.target.value);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory_id(e.target.value);
+  const [selectedOption, setSelectedOption]: any = useState(null);
+
+  const handleCategoryChange = (e: React.ChangeEvent<any>) => {
+    setSelectedOption(e.target.value);
+  };
+
+  const [categories, setCategories] = useState<any>([
+    {
+      id: 0,
+      name: "",
+      c_id: 0,
+    },
+  ]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:/api/article/create/")
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  const imageHander = (event: any) => {
+    if (event.target.files === null) {
+      return;
+    }
+    const file = event.target.files[0];
+    if (file === null) {
+      return;
+    }
+    let imgTag = document.getElementById("preview") as HTMLImageElement;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result: string = reader.result as string;
+      // result.replace(/data:.*\/.*;base64,/, "");
+      imgTag.src = result;
+      //   pic1 = result.replace(/data:.*\/.*;base64,/, "");
+      pic1 = result;
+      //   console.log(event.target.files[0]);
+      console.log(pic1);
+    };
   };
 
   const createNewarticle = (): void => {
@@ -47,7 +89,8 @@ const CreateArticles = () => {
         title: title,
         body: body,
         user_id: user?.id,
-        category_id: category_id,
+        category_id: selectedOption,
+        pic1: pic1,
       })
       .then((response) => {
         setArticles([...articles, response.data]);
@@ -81,11 +124,46 @@ const CreateArticles = () => {
                 onChange={handleTitleChange}
               />
               <label htmlFor="inputTitle">カテゴリー</label>
-              <input
+              <select
+                id="inputTitle"
+                name="category_id"
                 className="w-3/4 mt-1 mb-1 block mx-auto"
-                value={category_id}
+                required
+                defaultValue={selectedOption}
                 onChange={handleCategoryChange}
-              />
+              >
+                <option value="" className="hidden">
+                  選択してください
+                </option>
+                {categories.map((category: any) => {
+                  return (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  );
+                })}
+              </select>
+
+              <label htmlFor="inputBody">画像</label>
+              <section className="text-center">
+                <div>
+                  {pic1 || (
+                    <img
+                      id="preview"
+                      className="d-block mx-auto h-60 h-56"
+                      src={`${process.env.PUBLIC_URL}/landscape.svg`}
+                    />
+                  )}
+                </div>
+                <input
+                  name="pic1"
+                  type="file"
+                  // src={data.pic1}
+                  className="m-auto"
+                  accept="image/*"
+                  onChange={imageHander}
+                />
+              </section>
               <label htmlFor="inputBody">本文</label>
               <textarea
                 id="inputBody"
@@ -105,16 +183,3 @@ const CreateArticles = () => {
   );
 };
 export default CreateArticles;
-
-{
-  /* <label>
-タイトル:
-<input value={title} onChange={handleTitleChange} />
-本文
-<input value={body} onChange={handleBodyChange} />
-カテゴリー
-<input value={category_id} onChange={handleCategoryChange} />
-</label>
-<button onClick={createNewarticle}>作成</button>
-<p className="text-center m-5 text-2xl">{user?.name}のページ</p> */
-}

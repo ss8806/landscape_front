@@ -30,8 +30,8 @@ const Articles = () => {
 
   return (
     <AppLayout>
-      <section className="min-h-screen  text-center pb-10  ">
-        <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
+      <section className="min-h-screen bg-yellow-400 py-20">
+        <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
           {articles.map((article) => (
             <div key={article.id}>
               <img
