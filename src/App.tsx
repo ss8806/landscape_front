@@ -12,6 +12,7 @@ import Mypage from "./pages/mypage/index";
 import Books from "./pages/books/index";
 import Articles from "./pages/articles/index";
 import Create from "./pages/articles/create";
+import Create1 from "./pages/articles/create1";
 import NotFoundPage from "./pages/404";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/books" element={<Books />} />
         {/* <Route path="/articles" element={<Articles />} /> */}
         <Route path="/article/create" element={<Create />} />
+        <Route path="/article/create1" element={<Create1 />} />
         <Route path="/article/{id}/edit" element={<Articles />} />
         <Route path="/article/{article}/like" element={<Articles />} />
         <Route path="*" element={<NotFoundPage />} />
