@@ -13,7 +13,7 @@ import { Link, NavLink } from "react-router-dom";
 const Login = () => {
   const { login } = useAuth({
     middleware: "guest",
-    redirectIfAuthenticated: "/dashboard",
+    redirectIfAuthenticated: "/",
   });
 
   const [email, setEmail] = useState("");

@@ -12,7 +12,7 @@ import { Link, NavLink } from "react-router-dom";
 const Register = () => {
   const { register } = useAuth({
     middleware: "guest",
-    redirectIfAuthenticated: "/dashboard",
+    redirectIfAuthenticated: "/",
   });
 
   const [name, setName] = useState("");

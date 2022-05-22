@@ -16,7 +16,7 @@ const Navigation = ({ user }: any) => {
           <div className="flex">
             {/* Navigation Links */}
             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <CustomNavLink to="/articles">Landscape</CustomNavLink>
+              <CustomNavLink to="/">Landscape</CustomNavLink>
             </div>
           </div>
           <div className="flex justify-between h-16">
