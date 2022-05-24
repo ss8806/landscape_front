@@ -11,12 +11,14 @@ import PasswordReset from "./pages/password-reset";
 import Mypage from "./pages/mypage/index";
 import Books from "./pages/books/index";
 import Articles from "./pages/articles/index";
+import Show from "./pages/articles/show";
 import Create from "./pages/articles/create";
-import Create1 from "./pages/articles/create1";
+import Edit from "./pages/articles/edit";
 import NotFoundPage from "./pages/404";
+import { useParams } from "react-router-dom";
 
 function App() {
-  const notifyDefault = () => toast("A toast alert!");
+  // const notifyDefault = () => toast("A toast alert!");
   return (
     <>
       <Routes>
@@ -29,9 +31,9 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/books" element={<Books />} />
         {/* <Route path="/articles" element={<Articles />} /> */}
+        <Route path="/article/:id/show" element={<Show />} />
         <Route path="/article/create" element={<Create />} />
-        <Route path="/article/create1" element={<Create1 />} />
-        <Route path="/article/{id}/edit" element={<Articles />} />
+        <Route path="/article/:id/edit" element={<Edit />} />
         <Route path="/article/{article}/like" element={<Articles />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
