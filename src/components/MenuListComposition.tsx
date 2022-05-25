@@ -94,7 +94,12 @@ export default function MenuListComposition() {
                     onKeyDown={handleListKeyDown}
                   >
                     {user ? (
-                      <MenuItem onClick={logout}>Logout</MenuItem>
+                      <div>
+                        <MenuItem component={Link} to="/mypage">
+                          Mypage
+                        </MenuItem>
+                        <MenuItem onClick={logout}>Logout</MenuItem>
+                      </div>
                     ) : (
                       <MenuItem component={Link} to="/login">
                         login

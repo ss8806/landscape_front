@@ -15,10 +15,9 @@ import Show from "./pages/articles/show";
 import Create from "./pages/articles/create";
 import Edit from "./pages/articles/edit";
 import NotFoundPage from "./pages/404";
-import { useParams } from "react-router-dom";
 
 function App() {
-  // const notifyDefault = () => toast("A toast alert!");
+  const notifyDefault = () => toast("A toast alert!");
   return (
     <>
       <Routes>

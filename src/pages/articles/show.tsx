@@ -22,7 +22,7 @@ const ShowArticle = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const location = useLocation();
   const { a_id } = location.state as State;
-  const [article, setArticle] = useState<any>([
+  const [article, setArticle] = useState([
     {
       id: 0,
       title: "",
@@ -30,15 +30,47 @@ const ShowArticle = () => {
       user_id: "",
       category_id: "",
       pic1: "",
+      name: "",
+    },
+  ]);
+
+  const [c_name, setCname] = useState([
+    {
+      id: 0,
+      name: "",
+    },
+  ]);
+  const [u_name, setUname] = useState([
+    {
+      user: "",
     },
   ]);
 
   useEffect(() => {
     axios
       .get("http://localhost:/api/article/" + a_id + "/show")
-      //.get("http://localhost:/api/article/90/show")
       .then((response) => {
         setArticle(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:/api/article/" + a_id + "/c_name")
+      .then((response) => {
+        setCname(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:/api/article/" + a_id + "/u_name")
+      .then((response) => {
+        setUname(response.data);
         console.log(response.data);
       })
       .catch((error) => console.log(error));
@@ -55,7 +87,7 @@ const ShowArticle = () => {
             </div>
             <label htmlFor="inputTitle">カテゴリー</label>
             <div className="w-3/4 mt-1 mb-1 block mx-auto pl-2">
-              {article[0].title}
+              {c_name[0].name}
             </div>
             <label htmlFor="inputBody">画像</label>
             <section className="text-center">
