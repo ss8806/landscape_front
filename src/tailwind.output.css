@@ -544,6 +544,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: 1.25rem;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -605,8 +609,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.25rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .block {
   display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .flex {
@@ -651,6 +667,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-64 {
   height: 16rem;
+}
+
+.h-72 {
+  height: 18rem;
 }
 
 .min-h-screen {
@@ -873,6 +893,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
 }
 
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
+.bg-gray-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -887,6 +917,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .p-12 {
   padding: 3rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-10 {
@@ -958,6 +992,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 2rem;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .pb-10 {
   padding-bottom: 2.5rem;
 }
@@ -1001,6 +1039,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .uppercase {
@@ -1076,6 +1118,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-indigo-600 {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -1189,6 +1236,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-blue-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-700:hover {
@@ -1333,6 +1385,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     height: 5rem;
   }
 
+  .sm\:h-72 {
+    height: 18rem;
+  }
+
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -1382,6 +1438,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 768px) {
+  .md\:h-64 {
+    height: 16rem;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1403,5 +1463,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:h-56 {
+    height: 14rem;
   }
 }

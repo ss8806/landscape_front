@@ -30,8 +30,8 @@ const schema = yup.object().shape({
 
 const EditArticles = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
-  // const location = useLocation();
-  // const { a_id } = location.state as State;
+  const location = useLocation();
+  const { a_id } = location.state as State;
   const [pic1, setPic1] = useState<any>("");
   const [article, setArticle] = useState<any>([
     {
@@ -46,8 +46,8 @@ const EditArticles = () => {
 
   useEffect(() => {
     axios
-      // .get("http://localhost:/api/article/" + a_id + "/edit")
-      .get("http://localhost:/api/article/90/edit")
+      .get("http://localhost:/api/article/" + a_id + "/edit")
+      // .get("http://localhost:/api/article/90/edit")
       .then((response) => {
         setArticle(response.data);
         console.log(response.data);
@@ -112,7 +112,7 @@ const EditArticles = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     axios
-      .post("http://localhost:/api/article/90/update", data)
+      .post("http://localhost:/api/article/" + a_id + "/update", data)
       .then((response) => {
         console.log(response.data);
         toast.success("登録に成功しました。");

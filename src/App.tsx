@@ -9,6 +9,9 @@ import Dashboard from "./pages/dashboard";
 import ForgetPassword from "./pages/forgot-password";
 import PasswordReset from "./pages/password-reset";
 import Mypage from "./pages/mypage/index";
+import Profile from "./pages/mypage/profile";
+import Posts from "./pages/mypage/posts";
+// import Likes from "./pages/mypage/likes";
 import Books from "./pages/books/index";
 import Articles from "./pages/articles/index";
 import Show from "./pages/articles/show";
@@ -17,7 +20,7 @@ import Edit from "./pages/articles/edit";
 import NotFoundPage from "./pages/404";
 
 function App() {
-  const notifyDefault = () => toast("A toast alert!");
+  // const notifyDefault = () => toast("A toast alert!");
   return (
     <>
       <Routes>
@@ -28,6 +31,9 @@ function App() {
         <Route path="/forgot-password" element={<ForgetPassword />} />
         <Route path="/password-reset/:token" element={<PasswordReset />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/posts" element={<Posts />} />
+        {/* <Route path="/likes" element={<Likes />} /> */}
         <Route path="/books" element={<Books />} />
         {/* <Route path="/articles" element={<Articles />} /> */}
         <Route path="/article/:id/show" element={<Show />} />
