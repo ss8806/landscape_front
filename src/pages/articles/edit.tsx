@@ -1,5 +1,12 @@
 import AppLayout from "../../components/Layouts/AppLayout";
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import {
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+  Suspense,
+  lazy,
+} from "react";
 import axios from "../../lib/axios";
 import type { Category } from "../../types/Category";
 import { useAuth } from "../../hooks/auth";
@@ -29,10 +36,13 @@ const schema = yup.object().shape({
 });
 
 const EditArticles = () => {
+  const Lazy = lazy(() => import("../../components/Lazy"));
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const location = useLocation();
   const { a_id } = location.state as State;
   const [pic1, setPic1] = useState<any>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [article, setArticle] = useState<any>([
     {
       id: 0,
@@ -47,22 +57,30 @@ const EditArticles = () => {
   useEffect(() => {
     axios
       .get("http://localhost:/api/article/" + a_id + "/edit")
-      // .get("http://localhost:/api/article/90/edit")
       .then((response) => {
         setArticle(response.data);
         console.log(response.data);
       })
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     axios
       .get("http://localhost:/api/article/create/")
       .then((response) => {
         setCategories(response.data);
         console.log(response.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const {
@@ -127,116 +145,124 @@ const EditArticles = () => {
     <AppLayout>
       <section className="min-h-screen bg-yellow-400 py-20">
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="text-center">
-              <label htmlFor="inputTitle">タイトル</label>
-              <input
-                id="inputTitle"
-                type="text"
-                className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
-                placeholder="タイトル"
-                defaultValue={article[0].title}
-                required
-                {...register("title", {
-                  required: true,
-                  minLength: 2,
-                  maxLength: 20,
-                })}
-              />
-              <p className="text-red-500">
-                {errors.title && "タイトルは２文字以上入力して下さい。"}
-              </p>
-              <div className="mt-5">
-                <label htmlFor="select">カテゴリー</label>
-                {/* {article[2].id} */}
-              </div>
-              <select
-                id="select"
-                className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
-                required
-                {...register("category_id", { required: true })}
-              >
-                {/* <option defaultValue={article[2].id} className="">
-                  {article[2].name}
-                </option> */}
-                {categories.map((category: any) => {
-                  return (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  );
-                })}
-              </select>
-              <p className="text-red-500">
-                {errors.category_id && "カテゴリーを入力して下さい"}
-              </p>
-              <div className="mt-5">
-                <label htmlFor="pic1">画像</label>
-              </div>
-              <section className="text-center">
-                <div>
-                  <label htmlFor="pic1" className="display: inline-block">
-                    <div>
-                      {(article[0].pic1 && (
-                        <img
-                          id="preview"
-                          src={awspath + article[0].pic1}
-                          className="d-block mx-auto h-60 h-56"
-                        ></img>
-                      )) || (
-                        <img
-                          id="preview"
-                          className="d-block mx-auto h-60 h-56"
-                          src={`${process.env.PUBLIC_URL}/landscape.svg`}
-                        />
-                      )}
-                    </div>
-                  </label>
-                </div>
+          {error ? (
+            <p>データを取得できませんでした。</p>
+          ) : loading ? (
+            <Suspense fallback={<p>Loading...</p>}>
+              <Lazy />
+            </Suspense>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="text-center">
+                <label htmlFor="inputTitle">タイトル</label>
                 <input
-                  // name="pic1"
-                  id="pic1"
-                  type="file"
-                  className="m-auto"
-                  accept="image/*"
+                  id="inputTitle"
+                  type="text"
+                  className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
+                  placeholder="タイトル"
+                  defaultValue={article[0].title}
                   required
-                  // ref={inputRef}
-                  // {...register("pic", { required: true })}
-                  onChange={imageHander}
+                  {...register("title", {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 20,
+                  })}
                 />
                 <p className="text-red-500">
-                  {errors.pic1 && "写真を登録して下さい。"}
+                  {errors.title && "タイトルは２文字以上入力して下さい。"}
                 </p>
-              </section>
-              <div className="mt-5">
-                <label className="" htmlFor="inputBody">
-                  本文
-                </label>
+                <div className="mt-5">
+                  <label htmlFor="select">カテゴリー</label>
+                  {/* {article[2].id} */}
+                </div>
+                <select
+                  id="select"
+                  className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
+                  required
+                  {...register("category_id", { required: true })}
+                >
+                  {/* <option defaultValue={article[2].id} className="">
+                  {article[2].name}
+                </option> */}
+                  {categories.map((category: any) => {
+                    return (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <p className="text-red-500">
+                  {errors.category_id && "カテゴリーを入力して下さい"}
+                </p>
+                <div className="mt-5">
+                  <label htmlFor="pic1">画像</label>
+                </div>
+                <section className="text-center">
+                  <div>
+                    <label htmlFor="pic1" className="display: inline-block">
+                      <div>
+                        {(article[0].pic1 && (
+                          <img
+                            id="preview"
+                            src={awspath + article[0].pic1}
+                            className="d-block mx-auto h-60 h-56"
+                          ></img>
+                        )) || (
+                          <img
+                            id="preview"
+                            className="d-block mx-auto h-60 h-56"
+                            src={`${process.env.PUBLIC_URL}/landscape.svg`}
+                          />
+                        )}
+                      </div>
+                    </label>
+                  </div>
+                  <input
+                    // name="pic1"
+                    id="pic1"
+                    type="file"
+                    className="m-auto"
+                    accept="image/*"
+                    required
+                    // ref={inputRef}
+                    // {...register("pic", { required: true })}
+                    onChange={imageHander}
+                  />
+                  <p className="text-red-500">
+                    {errors.pic1 && "写真を登録して下さい。"}
+                  </p>
+                </section>
+                <div className="mt-5">
+                  <label className="" htmlFor="inputBody">
+                    本文
+                  </label>
+                </div>
+                <textarea
+                  id="inputBody"
+                  // name="body"
+                  className="w-3/4 h-64 mt-1 mb-1 block mx-auto p-2"
+                  placeholder="本文"
+                  defaultValue={article[0].body}
+                  // value={body}
+                  // onChange={handleBodyChange}
+                  {...register("body", {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 100,
+                  })}
+                />
+                <p className="text-red-500">
+                  {errors.body && "本文は２文字以上入力して下さい。"}
+                </p>
+                <input
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
+                  type="submit"
+                  value="編集"
+                />
               </div>
-              <textarea
-                id="inputBody"
-                // name="body"
-                className="w-3/4 h-64 mt-1 mb-1 block mx-auto p-2"
-                placeholder="本文"
-                defaultValue={article[0].body}
-                // value={body}
-                // onChange={handleBodyChange}
-                {...register("body", {
-                  required: true,
-                  minLength: 2,
-                  maxLength: 100,
-                })}
-              />
-              <p className="text-red-500">
-                {errors.body && "本文は２文字以上入力して下さい。"}
-              </p>
-              <input
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
-                type="submit"
-                value="編集"
-              />
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </section>
     </AppLayout>

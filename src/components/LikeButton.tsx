@@ -4,9 +4,9 @@ import React, {
   useEffect,
   lazy,
   Suspense,
-  Component,
 } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type Props = {
   auth: any;
@@ -15,35 +15,30 @@ type Props = {
   endpoint: string;
 };
 
-const csrf = () => axios.get("/sanctum/csrf-cookie");
+axios.defaults.withCredentials = true; // 設定しないと419エラーがでる
+
 const Lazy = lazy(() => import("./Lazy"));
 
 export default function LikeButton({ is_liked, endpoint }: Props) {
   let [liked, setLiked] = useState<boolean>(is_liked);
 
-  // useEffect(() => {
-  //   setLiked(liked);
-  // }, [liked]);
+  useEffect(() => {
+    setLiked(is_liked);
+  }, [is_liked]);
 
   const handleLike = async (e: SyntheticEvent) => {
-    // await csrf();
     e.preventDefault();
     // web.phpよりarticle/{article}/like ルートパラメータに注意
-    await axios.post(endpoint);
-    // await axios.put("http://localhost/api/article/1/like");
-    // setLiked(!liked);
-    setLiked((is_liked = !liked));
-    // alert("気になるリストに登録しました");
+    await axios.put(endpoint);
+    setLiked(!liked);
+    toast.success("気になるリストに登録しました");
   };
 
   const handleUnLike = async (e: SyntheticEvent) => {
-    // await csrf();
     e.preventDefault();
     await axios.delete(endpoint);
-    // await axios.delete("http://localhost/api/article/1/like");
-    // setLiked(!liked);
-    setLiked((is_liked = !liked));
-    // alert("気になるリストから削除しました");
+    setLiked(!liked);
+    toast.error("気になるリストから削除しました");
   };
 
   const handleClickLike = liked ? handleUnLike : handleLike;
@@ -54,13 +49,10 @@ export default function LikeButton({ is_liked, endpoint }: Props) {
       className="c-btn c-btn__like "
       onClick={handleClickLike}
     >
-      {/* <div> {liked ? "解除" : "気になる"}</div> */}
       <Suspense fallback={<p>Loading...</p>}>
         <Lazy />
         <div>
-          {/* {is_liked ? "true" : "false"} */}
-
-          {is_liked ? (
+          {liked ? (
             <>
               <svg
                 className="fill-current h-8 w-8 text-red-500"

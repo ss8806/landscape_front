@@ -35,7 +35,6 @@ const ShowArticle = () => {
       name: "",
     },
   ]);
-
   const [c_name, setCname] = useState([
     {
       id: 0,
@@ -48,28 +47,9 @@ const ShowArticle = () => {
     },
   ]);
   const [liked, setLiked] = useState<boolean>(false);
-
   const [endpoint, setEndpoint] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
-    axios
-      .get("http://localhost:/api/article/" + a_id + "/liked")
-      .then((response) => {
-        setLiked(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        setError(true);
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -87,11 +67,6 @@ const ShowArticle = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
     axios
       .get("http://localhost:/api/article/" + a_id + "/c_name")
       .then((response) => {
@@ -105,11 +80,6 @@ const ShowArticle = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
     axios
       .get("http://localhost:/api/article/" + a_id + "/u_name")
       .then((response) => {
@@ -123,15 +93,23 @@ const ShowArticle = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
     axios
       .get("http://localhost:/api/article/" + a_id + "/endpoint")
       .then((response) => {
         setEndpoint(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    axios
+      .get("http://localhost:/api/article/" + a_id + "/liked")
+      .then((response) => {
+        setLiked(response.data);
         console.log(response.data);
       })
       .catch((error) => {
