@@ -16,15 +16,6 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
-type Article = {
-  id: number;
-  title: string;
-  body: string;
-  user_id: number;
-  category_id: number;
-  pic1: any;
-};
-
 type State = {
   a_id: number;
 };
@@ -37,20 +28,25 @@ const schema = yup.object().shape({
 
 const EditArticles = () => {
   const Lazy = lazy(() => import("../../components/Lazy"));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const location = useLocation();
   const { a_id } = location.state as State;
-  const [pic1, setPic1] = useState<any>("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [article, setArticle] = useState<any>([
     {
       id: 0,
       title: "",
       body: "",
-      user_id: "",
+      user_id: 0,
       category_id: "",
       pic1: "",
+    },
+  ]);
+  const [c_name, setCname] = useState<any>([
+    {
+      id: 0,
+      name: "",
     },
   ]);
 
@@ -59,6 +55,19 @@ const EditArticles = () => {
       .get("http://localhost:/api/article/" + a_id + "/edit")
       .then((response) => {
         setArticle(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    axios
+      .get("http://localhost:/api/article/" + a_id + "/c_name")
+      .then((response) => {
+        setCname(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -83,19 +92,30 @@ const EditArticles = () => {
       });
   }, []);
 
+  // let [cate, setCate] = useState(c_name[0].id);
+
+  // useEffect(() => {
+  //   setCate(c_name[0].id);
+  // }, [c_name[0]]);
+
+  const [pic1, setPic1] = useState(article[0].pic1);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
   } = useForm({
-    defaultValues: {
-      title: article[0].title,
-      category_id: "1",
-      pic1: pic1,
-      body: article[0].body,
-    },
+    resolver: yupResolver(schema),
+    // defaultValues: {
+    //   title: article[0].title,
+    //   category_id: c_name[0].id,
+    //   // pic1: article[0].pic1,
+    //   body: article[0].body,
+    // },
   });
+  yupResolver(schema);
+
   const { user } = useAuth({ middleware: "auth" });
   const [categories, setCategories] = useState<any>([
     {
@@ -118,7 +138,6 @@ const EditArticles = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const result: string = reader.result as string;
-      // result.replace(/data:.*\/.*;base64,/, "");
       imgTag.src = result;
       //   pic1 = result.replace(/data:.*\/.*;base64,/, "");
       // pic1 = result;
@@ -153,114 +172,109 @@ const EditArticles = () => {
             </Suspense>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="text-center">
-                <label htmlFor="inputTitle">タイトル</label>
-                <input
-                  id="inputTitle"
-                  type="text"
-                  className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
-                  placeholder="タイトル"
-                  defaultValue={article[0].title}
-                  required
-                  {...register("title", {
-                    required: true,
-                    minLength: 2,
-                    maxLength: 20,
-                  })}
-                />
-                <p className="text-red-500">
-                  {errors.title && "タイトルは２文字以上入力して下さい。"}
-                </p>
-                <div className="mt-5">
-                  <label htmlFor="select">カテゴリー</label>
-                  {/* {article[2].id} */}
-                </div>
-                <select
-                  id="select"
-                  className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
-                  required
-                  {...register("category_id", { required: true })}
-                >
-                  {/* <option defaultValue={article[2].id} className="">
-                  {article[2].name}
-                </option> */}
-                  {categories.map((category: any) => {
-                    return (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    );
-                  })}
-                </select>
-                <p className="text-red-500">
-                  {errors.category_id && "カテゴリーを入力して下さい"}
-                </p>
-                <div className="mt-5">
-                  <label htmlFor="pic1">画像</label>
-                </div>
-                <section className="text-center">
-                  <div>
-                    <label htmlFor="pic1" className="display: inline-block">
-                      <div>
-                        {(article[0].pic1 && (
-                          <img
-                            id="preview"
-                            src={awspath + article[0].pic1}
-                            className="d-block mx-auto h-60 h-56"
-                          ></img>
-                        )) || (
-                          <img
-                            id="preview"
-                            className="d-block mx-auto h-60 h-56"
-                            src={`${process.env.PUBLIC_URL}/landscape.svg`}
-                          />
-                        )}
-                      </div>
-                    </label>
-                  </div>
+              <Suspense fallback={<p>Loading...</p>}>
+                <Lazy />
+                <div className="text-center">
+                  <label htmlFor="inputTitle">タイトル</label>
                   <input
-                    // name="pic1"
-                    id="pic1"
-                    type="file"
-                    className="m-auto"
-                    accept="image/*"
+                    // name="name"
+                    id="inputTitle"
+                    type="text"
+                    className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
+                    placeholder="タイトル"
+                    defaultValue={article[0].title}
                     required
-                    // ref={inputRef}
-                    // {...register("pic", { required: true })}
-                    onChange={imageHander}
+                    {...register("title")}
                   />
                   <p className="text-red-500">
-                    {errors.pic1 && "写真を登録して下さい。"}
+                    {errors.title && "タイトルは２文字以上入力して下さい。"}
                   </p>
-                </section>
-                <div className="mt-5">
-                  <label className="" htmlFor="inputBody">
-                    本文
-                  </label>
+                  <div className="mt-5">
+                    <label htmlFor="select">カテゴリー</label>
+                  </div>
+                  <select
+                    id="select"
+                    className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
+                    required
+                    {...register("category_id")}
+                    // onChange={onHandleChangeOption}
+                  >
+                    <option value={c_name[0].id} className="hidden">
+                      {c_name[0].name}
+                    </option>
+                    {categories.map((category: any) => {
+                      return (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <p className="text-red-500">
+                    {errors.category_id && "カテゴリーを入力して下さい"}
+                  </p>
+                  <div className="mt-5">
+                    <label htmlFor="pic1">画像</label>
+                  </div>
+                  <section className="text-center">
+                    <div>
+                      <label htmlFor="pic1" className="display: inline-block">
+                        <div>
+                          {(article[0].pic1 && (
+                            <img
+                              id="preview"
+                              src={awspath + article[0].pic1}
+                              className="d-block mx-auto h-60 h-56"
+                            ></img>
+                          )) || (
+                            <img
+                              id="preview"
+                              className="d-block mx-auto h-60 h-56"
+                              src={`${process.env.PUBLIC_URL}/landscape.svg`}
+                            />
+                          )}
+                        </div>
+                      </label>
+                    </div>
+                    <input
+                      // name="pic1"
+                      id="pic1"
+                      type="file"
+                      className="m-auto"
+                      accept="image/*"
+                      // src={article[0].pic1}
+                      // {...register("pic1", { required: true })}
+                      onChange={imageHander}
+                    />
+                    <p className="text-red-500">
+                      {/* {errors.pic1 && "写真を登録して下さい。"} */}
+                    </p>
+                  </section>
+                  <div className="mt-5">
+                    <label className="" htmlFor="inputBody">
+                      本文
+                    </label>
+                  </div>
+                  <textarea
+                    id="inputBody"
+                    // name="body"
+                    className="w-3/4 h-64 mt-1 mb-1 block mx-auto p-2"
+                    placeholder="本文"
+                    defaultValue={article[0].body}
+                    // value={body}
+                    // onChange={handleBodyChange}
+                    {...register("body")}
+                  />
+                  <p className="text-red-500">
+                    {errors.body && "本文は２文字以上入力して下さい。"}
+                  </p>
+                  <input
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
+                    type="submit"
+                    value="編集"
+                  />
                 </div>
-                <textarea
-                  id="inputBody"
-                  // name="body"
-                  className="w-3/4 h-64 mt-1 mb-1 block mx-auto p-2"
-                  placeholder="本文"
-                  defaultValue={article[0].body}
-                  // value={body}
-                  // onChange={handleBodyChange}
-                  {...register("body", {
-                    required: true,
-                    minLength: 2,
-                    maxLength: 100,
-                  })}
-                />
-                <p className="text-red-500">
-                  {errors.body && "本文は２文字以上入力して下さい。"}
-                </p>
-                <input
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
-                  type="submit"
-                  value="編集"
-                />
-              </div>
+              </Suspense>
             </form>
           )}
         </div>

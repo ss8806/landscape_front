@@ -156,7 +156,6 @@ const CreateArticles = () => {
                   className="m-auto"
                   accept="image/*"
                   required
-                  // ref={inputRef}
                   // {...register("pic", { required: true })}
                   onChange={imageHander}
                 />
