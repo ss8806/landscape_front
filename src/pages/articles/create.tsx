@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type Article = {
   id: number;
@@ -24,6 +25,7 @@ const schema = yup.object().shape({
 });
 
 const CreateArticles = () => {
+  const navigation = useNavigate();
   const {
     register,
     formState: { errors },
@@ -77,6 +79,7 @@ const CreateArticles = () => {
       .post("http://localhost:/api/article/store", data)
       .then((response) => {
         console.log(response.data);
+        navigation("/mypage");
         toast.success("登録に成功しました。");
       })
       .catch((error) => {
@@ -117,7 +120,6 @@ const CreateArticles = () => {
                 id="select"
                 // name="category_id"
                 className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
-                required
                 {...register("category_id", { required: true })}
               >
                 <option value="" className="hidden">

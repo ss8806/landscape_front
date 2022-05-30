@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/auth";
 import { SyntheticEvent, useEffect, useState, Suspense, lazy } from "react";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Mypage = () => {
   const { user, logout } = useAuth({ middleware: "auth" });
