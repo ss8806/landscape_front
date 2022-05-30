@@ -8,15 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-type Article = {
-  id: number;
-  title: string;
-  body: string;
-  user_id: any;
-  category_id: any;
-  pic1: any;
-};
+import useSWR from "swr";
 
 const schema = yup.object().shape({
   title: yup.string().required("Please enter title").min(2).max(24),
@@ -25,32 +17,35 @@ const schema = yup.object().shape({
 });
 
 const CreateArticles = () => {
+  useAuth({ middleware: "auth" });
   const navigation = useNavigate();
+  const [pic1, setPic1] = useState<any>("");
+  const fetcher = () =>
+    axios
+      .get("http://localhost:/api/article/create/")
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  const { data, error }: any = useSWR(
+    "http://localhost:/api/article/create/",
+    fetcher
+  );
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
   } = useForm();
-  const { user } = useAuth({ middleware: "auth" });
-  const [categories, setCategories] = useState<any>([
-    {
-      id: 0,
-      name: "",
-      c_id: 0,
-    },
-  ]);
+  yupResolver(schema);
 
-  const [pic1, setPic1] = useState<any>("");
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading......</div>;
+  console.log(data);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:/api/article/create/")
-      .then((response) => setCategories(response.data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  const inputRef = useRef<HTMLInputElement>(null);
   const imageHander = (event: any) => {
     if (event.target.files === null) {
       return;
@@ -101,9 +96,7 @@ const CreateArticles = () => {
                 // name="title"
                 className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
                 placeholder="タイトル"
-                // value={title}
                 required
-                // onChange={handleTitleChange}
                 {...register("title", {
                   required: true,
                   minLength: 2,
@@ -118,14 +111,13 @@ const CreateArticles = () => {
               </div>
               <select
                 id="select"
-                // name="category_id"
                 className="w-3/4 mt-1 mb-1 block mx-auto pl-2 ;"
                 {...register("category_id", { required: true })}
               >
                 <option value="" className="hidden">
                   選択してください
                 </option>
-                {categories.map((category: any) => {
+                {data.map((category: any) => {
                   return (
                     <option key={category.id} value={category.id}>
                       {category.name}
@@ -172,11 +164,8 @@ const CreateArticles = () => {
               </div>
               <textarea
                 id="inputBody"
-                // name="body"
                 className="w-3/4 h-64 mt-1 mb-1 block mx-auto p-2"
                 placeholder="本文"
-                // value={body}
-                // onChange={handleBodyChange}
                 {...register("body", {
                   required: true,
                   minLength: 2,
