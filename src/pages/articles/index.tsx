@@ -1,28 +1,7 @@
 import AppLayout from "../../components/Layouts/AppLayout";
-import {
-  useEffect,
-  useState,
-  Suspense,
-  lazy,
-  Key,
-  ReactChild,
-  ReactFragment,
-  ReactPortal,
-} from "react";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
-
-type Article = {
-  id: number;
-  title: string;
-  body: string;
-  user_id: any;
-  category_id: any;
-  pic1: any;
-  category: any;
-  name: any;
-};
 
 const Articles = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
@@ -67,8 +46,8 @@ const Articles = () => {
               <p>タイトル:{article.title}</p>
               <p>カテゴリー:{article.c_name}</p>
               <Link
-                to={"/article/" + article.id + "/show"}
-                state={{ a_id: article.id }}
+                to={"/article/" + article.article_id + "/show"}
+                state={{ a_id: article.article_id }}
                 className="inline-flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 "
               >
                 詳細を見る
