@@ -1,31 +1,61 @@
-import React, { SyntheticEvent } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "../../../lib/axios";
+import { toast } from "react-toastify";
 
 type Props = {
   name: string;
 };
 
-export default function EditName({ name }: Props) {
-  const onHandleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {};
+const schema = yup.object().shape({
+  editName: yup.string().required("Please enter title").min(3).max(12),
+});
 
-  const handleSubmitName = async (e: SyntheticEvent) => {
-    e.preventDefault();
+export default function EditName({ name }: Props) {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  yupResolver(schema);
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    axios
+      .put("http://localhost:/api/editName", data)
+      .then((response) => {
+        console.log(response.data);
+        toast.success("登録に成功しました。");
+      })
+      .catch((error) => {
+        console.log(error.data);
+        toast.error("登録に失敗しました");
+      });
   };
+
   return (
     <section className="text-center">
-      <form onSubmit={handleSubmitName}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="inputName">お名前</label>
         <input
           id="inputName"
           type="text"
-          name="editName"
           className="mt-1 block mx-auto"
           placeholder="お名前"
-          //   value={editName}
+          defaultValue={name}
           required
-          // isFocused={true}
-          onChange={onHandleChangeName}
+          {...register("editName")}
         />
-        <button className="ml-4">名前を変更</button>
+        <div>{errors.editName && "3文字以上入力して下さい。"}</div>
+        <input
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
+          type="submit"
+          value="名前を変更"
+        />
       </form>
     </section>
   );

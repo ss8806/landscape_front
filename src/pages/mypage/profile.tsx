@@ -1,23 +1,40 @@
 import React, { SyntheticEvent, useEffect } from "react";
 import { useAuth } from "../../hooks/auth";
 import AppLayout from "../../components/Layouts/AppLayout";
-
+import axios from "../../lib/axios";
+import useSWR from "swr";
 import EditName from "./profile_components/EditName";
 import EditEmail from "./profile_components/EditEmail";
 import EditIcon from "./profile_components/EditIcon";
 import EditPassword from "./profile_components/EditPassword";
 
-const Profile = (user: any) => {
-  const { name, email, icon, password } = user;
+const Profile = () => {
+  useAuth({ middleware: "auth" });
+  // console.log(user);
+
+  const fetcher = () =>
+    axios
+      .get("http://localhost:/api/user")
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  const { data, error }: any = useSWR("http://localhost:/api/user", fetcher);
+
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading......</div>;
+  console.log(data);
 
   return (
     <AppLayout>
       <section className="p-10 text-center">
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
-          <EditIcon icon={icon}></EditIcon>
-          <EditName name={name}></EditName>
-          <EditEmail email={email}></EditEmail>
-          <EditPassword password={password}></EditPassword>
+          <EditIcon icon={data.icon}></EditIcon>
+          <EditName name={data.name}></EditName>
+          <EditEmail email={data.email}></EditEmail>
+          <EditPassword></EditPassword>
         </div>
       </section>
     </AppLayout>
