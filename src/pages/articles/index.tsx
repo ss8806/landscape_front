@@ -21,7 +21,8 @@ const Articles = () => {
       });
   const { data, error }: any = useSWR(
     "http://localhost:/api/articles/",
-    fetcher
+    fetcher,
+    { suspense: true }
   );
 
   const [filterQuery, setFilterQuery] = useState<any>({});
@@ -66,6 +67,27 @@ const Articles = () => {
     //第2引数の配列を指定することで、この変数の変化がある度にこの部分の処理が実行されます。
   }, [filterQuery, sort]);
 
+  // 入力した情報をfilterQueryに入れる
+  const handleFilter = (e: any) => {
+    const { name, value } = e.target;
+    setFilterQuery({ ...filterQuery, [name]: value });
+  };
+
+  // 選択したカラムをSortに入れる;
+  const handleSort = (column: any) => {
+    if (sort.key === column) {
+      // カラムを設定した場合は逆順になるようにorderをマイナスにします。
+      setSorted(!isSorted);
+      setSort({ ...sort, order: -sort.order });
+    } else {
+      setSorted(!isSorted);
+      setSort({
+        key: column,
+        order: 1,
+      });
+    }
+  };
+
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;
   console.log(data);
@@ -78,14 +100,14 @@ const Articles = () => {
           name="title"
           className="m-4 border-solid border border-black"
           placeholder="タイトル"
-          // value={filterQuery.title || ""}
-          // onChange={handleFilter}
+          value={filterQuery.title || ""}
+          onChange={handleFilter}
         />
         <select
           name="c_id"
           className="m-4 border-solid border border-black"
-          // value={filterQuery.c_id}
-          // onChange={handleFilter}
+          value={filterQuery.c_id}
+          onChange={handleFilter}
         >
           <option value="">カテゴリー選択</option>
           {/* {data[1].map((cate: Category) => {
@@ -98,9 +120,9 @@ const Articles = () => {
         </select>
         <button
           className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
-          // onClick={() => handleSort("id")}
+          onClick={() => handleSort("id")}
         >
-          {/* {isSorted ? "登録を古い順に並べ替え" : "登録を新しい順に並べ替え"} */}
+          {isSorted ? "登録を古い順に並べ替え" : "登録を新しい順に並べ替え"}
         </button>
         <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
           {filteredTask.length ? (
