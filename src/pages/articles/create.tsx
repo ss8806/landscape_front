@@ -3,7 +3,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import axios from "../../lib/axios";
 import type { Category } from "../../types/Category";
 import { useAuth } from "../../hooks/auth";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { toast } from "react-toastify";
@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 
 const schema = yup.object().shape({
-  title: yup.string().required("Please enter title").min(2).max(24),
+  title: yup.string().required("Please enter title").min(1).max(24),
   category_id: yup.number().required("Please enter category"),
-  body: yup.string().required("Please enter body").min(2).max(24),
+  body: yup.string().required("Please enter body").min(1).max(24),
 });
 
 const CreateArticles = () => {

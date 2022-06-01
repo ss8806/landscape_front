@@ -16,22 +16,17 @@ const schema = yup.object().shape({
   category: yup.number(),
 });
 
-const Articles = () => {
+const Filter = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const navigation = useNavigate();
+  const location = useLocation();
   const [pageIndex, setPageIndex] = useState(1);
+  type FilterState = { filter: string };
+  const filterstate = location.state as FilterState; //型を無理やり与える
 
-  const fetcher = () =>
-    axios
-      .get("http://localhost:/api/articles?page=" + pageIndex)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const fetcher = () => filterstate;
   const { data, error }: any = useSWR(
-    "http://localhost:/api/articles?page=" + pageIndex,
+    "http://localhost:/api/filter?page=" + pageIndex,
     fetcher
   );
 
@@ -50,6 +45,9 @@ const Articles = () => {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;
   console.log(data);
+
+  // console.log(data);
+  // console.log(filterstate);
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -83,13 +81,13 @@ const Articles = () => {
               カテゴリー選択
             </option>
             <option value="0">全て</option>
-            {data[1].map((cate: Category) => {
+            {/* {data[1].map((cate: Category) => {
               return (
                 <option key={cate.id} value={cate.id}>
                   {cate.name}
                 </option>
               );
-            })}
+            })} */}
           </select>
           <input
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
@@ -99,8 +97,8 @@ const Articles = () => {
         </form>
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
           <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
-            {data[0].data.length ? (
-              data[0].data.map((article: Article) => {
+            {data.filter.data.length ? (
+              data.filter.data.map((article: Article) => {
                 return (
                   <div key={article.article_id} className="">
                     {(article.pic1 && (
@@ -145,4 +143,4 @@ const Articles = () => {
     </AppLayout>
   );
 };
-export default Articles;
+export default Filter;
