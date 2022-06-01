@@ -32,7 +32,7 @@ const Articles = () => {
   let [isSorted, setSorted] = useState<boolean>(true);
 
   const filteredTask = useMemo(() => {
-    let filteredTask = data;
+    let filteredTask = data[0];
 
     // 入力した文字は小文字にする
     const filterTitle = filterQuery.title && filterQuery.title.toLowerCase();
@@ -48,7 +48,10 @@ const Articles = () => {
       }
 
       // カテゴリーで絞り込み
-      if (filterQuery.c_id && row.c_id !== parseInt(filterQuery.c_id)) {
+      if (
+        filterQuery.category_id &&
+        row.category_id !== parseInt(filterQuery.category_id)
+      ) {
         return false;
       }
       return row;
@@ -98,57 +101,73 @@ const Articles = () => {
         <input
           type="text"
           name="title"
-          className="m-4 border-solid border border-black"
-          placeholder="タイトル"
+          className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
+          placeholder="タイトルを検索"
           value={filterQuery.title || ""}
           onChange={handleFilter}
         />
         <select
-          name="c_id"
-          className="m-4 border-solid border border-black"
-          value={filterQuery.c_id}
+          name="category_id"
+          className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
+          value={filterQuery.category_id}
           onChange={handleFilter}
         >
           <option value="">カテゴリー選択</option>
-          {/* {data[1].map((cate: Category) => {
+          {data[1].map((cate: Category) => {
             return (
               <option key={cate.id} value={cate.id}>
                 {cate.name}
               </option>
             );
-          })} */}
+          })}
         </select>
         <button
           className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
-          onClick={() => handleSort("id")}
+          onClick={() => handleSort("updated")}
         >
-          {isSorted ? "登録を古い順に並べ替え" : "登録を新しい順に並べ替え"}
+          {isSorted ? "古い順に並べ替え" : "新しい順に並べ替え"}
         </button>
-        <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
-          {filteredTask.length ? (
-            filteredTask.map((article: Article) => {
-              return (
-                <div key={article.id} className="">
-                  <img
-                    className="g:h-60 xl:h-56 md:h-64 sm:h-72 xs:h-72 h-72 rounded w-full object-cover object-center mb-6"
-                    src="https://i.imgur.com/lmYYa2s.png"
-                  />
-                  <div className="text-center">
-                    カテゴリー：
-                    {article.c_name[0].name}
+        <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
+          <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
+            {filteredTask.length ? (
+              filteredTask.map((article: Article) => {
+                return (
+                  <div key={article.article_id} className="">
+                    {(article.pic1 && (
+                      <img
+                        id="preview"
+                        src={awspath + article.pic1}
+                        className="d-block mx-auto h-60 h-56"
+                      ></img>
+                    )) || (
+                      <img
+                        id="preview"
+                        className="d-block mx-auto h-60 h-56"
+                        src={`${process.env.PUBLIC_URL}/landscape.svg`}
+                      />
+                    )}
+                    <div className="text-center">
+                      カテゴリー：
+                      {article.c_name}
+                    </div>
+                    <div className="text-center">{article.title}</div>
+                    <div className="text-center">
+                      更新日：{moment(article.updated).format("YYYY年MM月DD日")}
+                    </div>
+                    <Link
+                      to={"/article/" + article.article_id + "/show"}
+                      state={{ a_id: article.article_id }}
+                      className="inline-flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 "
+                    >
+                      詳細を見る
+                    </Link>
                   </div>
-                  <div className="text-center">{article.title}</div>
-                  {/* <div className="text-center">
-                                            {moment(article.create).format(
-                                                "YYYY年MM月DD日"
-                                            )}
-                                        </div> */}
-                </div>
-              );
-            })
-          ) : (
-            <p>該当なし</p>
-          )}
+                );
+              })
+            ) : (
+              <p>該当なし</p>
+            )}
+          </div>
         </div>
       </section>
     </AppLayout>

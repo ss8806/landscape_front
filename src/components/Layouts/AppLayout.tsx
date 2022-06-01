@@ -10,7 +10,7 @@ const AppLayout = ({ children }: any) => {
       {/* Page Heading */}
       {/* <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"></div> */}
       {/* Page Content */}
-      <main>{children}</main>
+      <main className="min-h-80 bg-yellow-400">{children}</main>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import React, { SyntheticEvent, useState, useEffect } from "react";
 import AppLayout from "../../components/Layouts/AppLayout";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";

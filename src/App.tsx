@@ -12,7 +12,6 @@ import Mypage from "./pages/mypage/index";
 import Profile from "./pages/mypage/profile";
 import Posts from "./pages/mypage/posts";
 import Likes from "./pages/mypage/likes";
-import Books from "./pages/books/index";
 import Articles from "./pages/articles/index";
 import Show from "./pages/articles/show";
 import Create from "./pages/articles/create";
@@ -34,7 +33,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/likes" element={<Likes />} />
-        <Route path="/books" element={<Books />} />
         {/* <Route path="/articles" element={<Articles />} /> */}
         <Route path="/article/:id/show" element={<Show />} />
         <Route path="/article/create" element={<Create />} />

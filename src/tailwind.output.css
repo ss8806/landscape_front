@@ -544,6 +544,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: 1.25rem;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -640,8 +644,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-8 {
   height: 2rem;
 }
-
-.h-20 {
+.h-12{	
+  height: 3rem;
+}
+.h-14{
+  height: 3.5rem;
+}
+  .h-20 {
   height: 5rem;
 }
 
@@ -699,6 +708,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-3\/4 {
   width: 75%;
+}
+
+.w-60 {
+  width: 15rem;
 }
 
 .max-w-xl {
@@ -835,6 +848,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-top-width: 1px;
 }
 
+.border-solid {
+  border-style: solid;
+}
+
 .border-transparent {
   border-color: transparent;
 }
@@ -862,6 +879,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-gray-100 {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .bg-gray-100 {

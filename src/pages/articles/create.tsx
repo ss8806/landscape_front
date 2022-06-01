@@ -1,6 +1,7 @@
 import AppLayout from "../../components/Layouts/AppLayout";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import axios from "../../lib/axios";
+import type { Category } from "../../types/Category";
 import { useAuth } from "../../hooks/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

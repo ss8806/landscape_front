@@ -4,15 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Suspense } from "react";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Suspense fallback={<div>loading...</div>}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Suspense>
   </React.StrictMode>
 );
 

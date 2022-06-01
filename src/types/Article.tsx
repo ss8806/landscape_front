@@ -8,4 +8,5 @@ export type Article = {
   pic1: any;
   c_id: number;
   c_name: any;
+  updated: number;
 };
