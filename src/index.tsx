@@ -11,11 +11,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<div>loading...</div>}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Suspense>
+    {/* <Suspense fallback={<div>loading...</div>}> */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    {/* </Suspense> */}
   </React.StrictMode>
 );
 

@@ -29,7 +29,7 @@ export default function Likes() {
     <AppLayout>
       <section className="p-10 text-center">
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
-          <h1 className="text-2xl mb-6">投稿した記事</h1>
+          <h1 className="text-2xl mb-6">お気に入りの記事</h1>
           <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
             {data.map((like: any) => {
               return (
@@ -55,11 +55,11 @@ export default function Likes() {
                   </div> */}
                   <div className="">{like.title}</div>
                   <Link
-                    to={"/article/" + like.id + "/edit"}
+                    to={"/article/" + like.id + "/show"}
                     state={{ a_id: like.id }}
                     className="inline-flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
                   >
-                    編集する
+                    詳細をみる
                   </Link>
                 </div>
               );

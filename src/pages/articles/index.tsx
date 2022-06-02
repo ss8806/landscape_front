@@ -5,7 +5,7 @@ import type { Category } from "../../types/Category";
 import type { Article } from "../../types/Article";
 import useSWR from "swr";
 import moment from "moment";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useState, useRef } from "react";
@@ -17,6 +17,7 @@ const schema = yup.object().shape({
 
 const Filter = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
+
   const [pageIndex, setPageIndex] = useState(1);
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
@@ -69,41 +70,55 @@ const Filter = () => {
     setCategory(categoryEl.current.value);
   };
 
+  const onReset = () => {
+    setKeyword("");
+    setCategory("");
+  };
+
   return (
     <AppLayout>
       <section className="min-h-screen  text-center pb-10  ">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="text"
-            className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
-            placeholder="タイトルを検索"
-            defaultValue={keyword}
-            ref={inputEl}
-          />
+        <div className="flex justify-center">
+          <form className="" onSubmit={handleSubmit(onSubmit)}>
+            <input
+              type="text"
+              className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
+              placeholder="タイトルを検索"
+              defaultValue={keyword}
+              ref={inputEl}
+            />
 
-          <select
-            className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
-            ref={categoryEl}
-            defaultValue={category}
-          >
-            <option className="hidden" value="">
-              カテゴリー選択
-            </option>
-            <option value="">全て</option>
-            {data[1].map((cate: Category) => {
-              return (
-                <option key={cate.id} value={cate.id}>
-                  {cate.name}
-                </option>
-              );
-            })}
-          </select>
-          <input
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
-            type="submit"
-            value="検索"
-          />
-        </form>
+            <select
+              className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
+              ref={categoryEl}
+              defaultValue={category}
+            >
+              <option className="hidden" value="">
+                カテゴリー選択
+              </option>
+              <option value="">全て</option>
+              {data[1].map((cate: Category) => {
+                return (
+                  <option key={cate.id} value={cate.id}>
+                    {cate.name}
+                  </option>
+                );
+              })}
+            </select>
+            <input
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
+              type="submit"
+              value="検索"
+            />
+          </form>
+          <form onSubmit={handleSubmit(onReset)}>
+            <input
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-5 "
+              type="submit"
+              value="リセット"
+            />
+          </form>
+        </div>
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
           <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
             {data[0].data.length ? (

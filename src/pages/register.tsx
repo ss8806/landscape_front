@@ -31,7 +31,7 @@ const Register = () => {
       <AuthCard
         logo={
           <Link to="/">
-            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+            {/* <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" /> */}
           </Link>
         }
       >
@@ -40,7 +40,7 @@ const Register = () => {
         <form onSubmit={submitForm}>
           {/* Name */}
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名前</Label>
             <Input
               id="name"
               type="text"
@@ -53,7 +53,7 @@ const Register = () => {
           </div>
           {/* Email Address */}
           <div className="mt-4">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">メール</Label>
             <Input
               id="email"
               type="email"
@@ -65,7 +65,7 @@ const Register = () => {
           </div>
           {/* Password */}
           <div className="mt-4">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">パスワード</Label>
             <Input
               id="password"
               type="password"
@@ -78,7 +78,7 @@ const Register = () => {
           </div>
           {/* Confirm Password */}
           <div className="mt-4">
-            <Label htmlFor="password_confirmation">Confirm Password</Label>
+            <Label htmlFor="password_confirmation">パスワード(確認用)</Label>
             <Input
               id="password_confirmation"
               type="password"
@@ -95,9 +95,9 @@ const Register = () => {
               to="/login"
               className="underline text-sm text-gray-600 hover:text-gray-900"
             >
-              Already registered?
+              登録済みの方はこちら
             </NavLink>
-            <Button className="ml-4">Register</Button>
+            <Button className="ml-4">登録</Button>
           </div>
         </form>
       </AuthCard>

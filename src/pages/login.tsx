@@ -31,7 +31,7 @@ const Login = () => {
       <AuthCard
         logo={
           <Link to="/">
-            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+            {/* <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" /> */}
           </Link>
         }
       >
@@ -42,7 +42,7 @@ const Login = () => {
         <form onSubmit={submitForm}>
           {/* Email Address */}
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">メール</Label>
             <Input
               id="email"
               type="email"
@@ -55,7 +55,7 @@ const Login = () => {
           </div>
           {/* Password */}
           <div className="mt-4">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">パスワード</Label>
             <Input
               id="password"
               type="password"
@@ -76,7 +76,9 @@ const Login = () => {
                 className="rounded border-gray-300 text-indigo-600
                 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              <span className="ml-2 text-sm text-gray-600">
+                ログインを保持する
+              </span>
             </label>
           </div>
           <div className="flex items-center justify-end mt-4">
@@ -84,9 +86,9 @@ const Login = () => {
               to="/forgot-password"
               className="underline text-sm text-gray-600 hover:text-gray-900"
             >
-              Forgot your password?
+              パスワードを忘れた
             </NavLink>
-            <Button className="ml-3">Login</Button>
+            <Button className="ml-3">ログイン</Button>
           </div>
         </form>
       </AuthCard>

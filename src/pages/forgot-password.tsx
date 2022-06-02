@@ -27,14 +27,13 @@ const ForgotPassword = () => {
       <AuthCard
         logo={
           <NavLink to="/">
-            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+            {/* <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" /> */}
           </NavLink>
         }
       >
         <div className="mb-4 text-sm text-gray-600">
-          Forgot your password? No problem. Just let us know your email address
-          and we will email you a password reset link that will allow you to
-          choose a new one.
+          パスワードを忘れた場合 パスワードを忘れた場合
+          ご登録いただいております、メールアドレスを入力してください。登録メールアドレスにパスワード再設定用のURLをお送りいたします。
         </div>
         {/* Session Status */}
         <AuthSessionStatus className="mb-4" status={status} />
@@ -43,7 +42,7 @@ const ForgotPassword = () => {
         <form onSubmit={submitForm}>
           {/* Email Address */}
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">メール</Label>
             <Input
               id="email"
               type="email"
@@ -56,7 +55,7 @@ const ForgotPassword = () => {
             />
           </div>
           <div className="flex items-center justify-end mt-4">
-            <Button>Email Password Reset Link</Button>
+            <Button> パスワード再設定メールを送る</Button>
           </div>
         </form>
       </AuthCard>
