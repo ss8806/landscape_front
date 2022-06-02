@@ -8,8 +8,8 @@ import moment from "moment";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useLocation, useNavigate } from "react-router-dom";
-import React, { SyntheticEvent, useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 const schema = yup.object().shape({
   keyword: yup.string().max(10),
@@ -19,7 +19,8 @@ const schema = yup.object().shape({
 const Articles = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const navigation = useNavigate();
-  const [pageIndex, setPageIndex] = useState(1);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [keyword, setKeyword] = useState("");
 
   const fetcher = () =>
     axios
@@ -30,6 +31,7 @@ const Articles = () => {
       .catch((error) => {
         console.log(error);
       });
+
   const { data, error }: any = useSWR(
     "http://localhost:/api/articles?page=" + pageIndex,
     fetcher
@@ -42,8 +44,6 @@ const Articles = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
-    // defaultValues: {
-    // },
   });
   yupResolver(schema);
 
@@ -51,13 +51,25 @@ const Articles = () => {
   if (!data) return <div>loading......</div>;
   console.log(data);
 
+  const handleKeywordChange = (e: any) => {
+    setKeyword(e.target.value);
+  };
+
   const onSubmit = (data: any) => {
     console.log(data);
     axios
-      .post("http://localhost:/api/article1", data)
+      .get("http://localhost:/api/filter", {
+        params: {
+          // ここにクエリパラメータを指定する
+          keyword: keyword,
+          // category: 1,
+        },
+      })
       .then((response) => {
         console.log(response.data);
-        navigation("/filter", { state: { filter: response.data } });
+        navigation("/filter?keyword=" + keyword, {
+          state: { preword: keyword },
+        });
       })
       .catch((error) => {
         console.log(error.data);
@@ -72,8 +84,10 @@ const Articles = () => {
             type="text"
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
             placeholder="タイトルを検索"
-            defaultValue={""}
+            defaultValue={keyword}
+            // value={keyword}
             {...register("keyword")}
+            onChange={handleKeywordChange}
           />
           <select
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
