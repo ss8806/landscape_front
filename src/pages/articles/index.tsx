@@ -8,23 +8,32 @@ import moment from "moment";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const schema = yup.object().shape({
   keyword: yup.string().max(10),
   category: yup.number(),
 });
 
-const Articles = () => {
+const Filter = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
-  const navigation = useNavigate();
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(1);
   const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("");
+  const inputEl = useRef<any>("");
+  const categoryEl = useRef<any>("");
 
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/articles?page=" + pageIndex)
+      .get(
+        "http://localhost:/api/articles?keyword=" +
+          keyword +
+          "&category=" +
+          category +
+          "&page=" +
+          pageIndex
+      )
+
       .then((res) => {
         return res.data;
       })
@@ -33,7 +42,12 @@ const Articles = () => {
       });
 
   const { data, error }: any = useSWR(
-    "http://localhost:/api/articles?page=" + pageIndex,
+    "http://localhost:/api/articles?keyword=" +
+      keyword +
+      "&category=" +
+      category +
+      "&page=" +
+      pageIndex,
     fetcher
   );
 
@@ -41,7 +55,6 @@ const Articles = () => {
     register,
     formState: { errors },
     handleSubmit,
-    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -51,29 +64,9 @@ const Articles = () => {
   if (!data) return <div>loading......</div>;
   console.log(data);
 
-  const handleKeywordChange = (e: any) => {
-    setKeyword(e.target.value);
-  };
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    axios
-      .get("http://localhost:/api/filter", {
-        params: {
-          // ここにクエリパラメータを指定する
-          keyword: keyword,
-          // category: 1,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigation("/filter?keyword=" + keyword, {
-          state: { preword: keyword },
-        });
-      })
-      .catch((error) => {
-        console.log(error.data);
-      });
+  const onSubmit = () => {
+    setKeyword(inputEl.current.value);
+    setCategory(categoryEl.current.value);
   };
 
   return (
@@ -85,18 +78,18 @@ const Articles = () => {
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
             placeholder="タイトルを検索"
             defaultValue={keyword}
-            // value={keyword}
-            {...register("keyword")}
-            onChange={handleKeywordChange}
+            ref={inputEl}
           />
+
           <select
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
-            {...register("category")}
+            ref={categoryEl}
+            defaultValue={category}
           >
-            <option className="hidden" value="0">
+            <option className="hidden" value="">
               カテゴリー選択
             </option>
-            <option value="0">全て</option>
+            <option value="">全て</option>
             {data[1].map((cate: Category) => {
               return (
                 <option key={cate.id} value={cate.id}>
@@ -108,7 +101,7 @@ const Articles = () => {
           <input
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
             type="submit"
-            value="編集"
+            value="検索"
           />
         </form>
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
@@ -159,4 +152,4 @@ const Articles = () => {
     </AppLayout>
   );
 };
-export default Articles;
+export default Filter;

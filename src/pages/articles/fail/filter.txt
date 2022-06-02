@@ -9,7 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { SyntheticEvent, useState, useEffect, useMemo } from "react";
+import React, { useState, useRef } from "react";
 
 const schema = yup.object().shape({
   keyword: yup.string().max(10),
@@ -19,14 +19,33 @@ const schema = yup.object().shape({
 const Filter = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const navigation = useNavigate();
-  const location = useLocation();
   const [pageIndex, setPageIndex] = useState(1);
+  const location = useLocation();
   type FilterState = { filter: string };
   const filterstate = location.state as FilterState; //型を無理やり与える
+  const [keyword, setKeyword] = useState("");
+  const inputEl = useRef<any>("");
 
-  const fetcher = () => filterstate;
+  const fetcher = () =>
+    axios
+      // .get("http://localhost:/api/filter?keyword=fa&page=" + pageIndex)
+      .get(
+        "http://localhost:/api/articles?keyword=" +
+          keyword +
+          "&page=" +
+          pageIndex
+      )
+
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   const { data, error }: any = useSWR(
-    "http://localhost:/api/filter?page=" + pageIndex,
+    // "http://localhost:/api/filter?keyword=fa&page=" + pageIndex,
+    "http://localhost:/api/articles?keyword=" + keyword + "&page=" + pageIndex,
     fetcher
   );
 
@@ -34,11 +53,8 @@ const Filter = () => {
     register,
     formState: { errors },
     handleSubmit,
-    setValue,
   } = useForm({
     resolver: yupResolver(schema),
-    // defaultValues: {
-    // },
   });
   yupResolver(schema);
 
@@ -46,20 +62,8 @@ const Filter = () => {
   if (!data) return <div>loading......</div>;
   console.log(data);
 
-  // console.log(data);
-  // console.log(filterstate);
-
   const onSubmit = (data: any) => {
-    console.log(data);
-    axios
-      .post("http://localhost:/api/", data)
-      .then((response) => {
-        console.log(response.data);
-        navigation("/filter", { state: { filter: response.data } });
-      })
-      .catch((error) => {
-        console.log(error.data);
-      });
+    setKeyword(inputEl.current.value);
   };
 
   return (
@@ -70,9 +74,9 @@ const Filter = () => {
             type="text"
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
             placeholder="タイトルを検索"
-            defaultValue={""}
-            {...register("keyword")}
+            ref={inputEl}
           />
+
           <select
             className="w-60 m-4 p-2 bg-white text-base border-solid border border-black"
             {...register("category")}
@@ -81,24 +85,24 @@ const Filter = () => {
               カテゴリー選択
             </option>
             <option value="0">全て</option>
-            {/* {data[1].map((cate: Category) => {
+            {data[1].map((cate: Category) => {
               return (
                 <option key={cate.id} value={cate.id}>
                   {cate.name}
                 </option>
               );
-            })} */}
+            })}
           </select>
           <input
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
             type="submit"
-            value="編集"
+            value="検索"
           />
         </form>
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
           <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 space-y-4 sm:space-y-0">
-            {data.filter[0].data.length ? (
-              data.filter[0].data.map((article: Article) => {
+            {data[0].data.length ? (
+              data[0].data.map((article: Article) => {
                 return (
                   <div key={article.article_id} className="">
                     {(article.pic1 && (
