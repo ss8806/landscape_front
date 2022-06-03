@@ -1,4 +1,5 @@
 import AppLayout from "../../components/Layouts/AppLayout";
+import Pager from "../../components/Pager";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
 import type { Category } from "../../types/Category";
@@ -17,7 +18,6 @@ const schema = yup.object().shape({
 
 const Filter = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
-
   const [pageIndex, setPageIndex] = useState(1);
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
@@ -73,11 +73,12 @@ const Filter = () => {
   const onReset = () => {
     setKeyword("");
     setCategory("");
+    setPageIndex(0);
   };
 
   return (
     <AppLayout>
-      <section className="min-h-screen  text-center pb-10  ">
+      <section className="min-h-screen p-50 text-center pb-10  ">
         <div className="flex justify-center">
           <form className="" onSubmit={handleSubmit(onSubmit)}>
             <input
@@ -161,8 +162,12 @@ const Filter = () => {
             )}
           </div>
         </div>
-        <button onClick={() => setPageIndex(pageIndex - 1)}>Previous</button>
-        <button onClick={() => setPageIndex(pageIndex + 1)}>Next</button>
+        <Pager
+          links={data[0].links}
+          c_page={data[0].current_page}
+          setPageIndex={setPageIndex}
+        />
+        {data[0].current_page} / {data[0].last_page}
       </section>
     </AppLayout>
   );
