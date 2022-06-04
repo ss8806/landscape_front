@@ -39,11 +39,7 @@ const Filter = () => {
 
       .then((res) => {
         return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
       });
-
   const { data, error }: any = useSWR(
     "http://localhost:/api/articles?keyword=" +
       keyword +
@@ -51,7 +47,17 @@ const Filter = () => {
       category +
       "&page=" +
       pageIndex,
-    fetcher
+    fetcher,
+    {
+      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+        // 404では再試行しない。
+        if (error.status === 404) return;
+        // 再試行は3回までしかできません。
+        if (retryCount >= 3) return;
+        // 5秒後に再試行します。
+        setTimeout(() => revalidate({ retryCount }), 5000);
+      },
+    }
   );
 
   const {

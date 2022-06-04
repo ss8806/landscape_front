@@ -14,14 +14,9 @@ const Profile = () => {
   // console.log(user);
 
   const fetcher = () =>
-    axios
-      .get(apiURL + "/api/user")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.get(apiURL + "/api/user").then((res) => {
+      return res.data;
+    });
   const { data, error }: any = useSWR("http://localhost:/api/user", fetcher);
 
   if (error) return <div>failed to load</div>;

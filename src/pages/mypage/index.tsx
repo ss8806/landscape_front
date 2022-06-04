@@ -10,14 +10,9 @@ const Mypage = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
 
   const fetcher = () =>
-    axios
-      .get(apiURL + "/api/mypage")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.get(apiURL + "/api/mypage").then((res) => {
+      return res.data;
+    });
   const { data, error }: any = useSWR("http://localhost:/api/mypage", fetcher);
 
   if (error) return <div>failed to load</div>;

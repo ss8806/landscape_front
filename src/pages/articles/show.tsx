@@ -18,14 +18,9 @@ const ShowArticle = () => {
   const { a_id } = location.state as State;
 
   const fetcher = () =>
-    axios
-      .get(apiURL + "/api/article/" + a_id + "/show")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.get(apiURL + "/api/article/" + a_id + "/show").then((res) => {
+      return res.data;
+    });
   const { data, error }: any = useSWR(
     "http://localhost:/api/article/" + a_id + "/show",
     fetcher

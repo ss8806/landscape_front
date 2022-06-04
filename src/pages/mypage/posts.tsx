@@ -9,14 +9,9 @@ const Posts = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   useAuth({ middleware: "auth" });
   const fetcher = () =>
-    axios
-      .get(apiURL + "/api/showPosts")
-      .then((res) => {
-        return res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.get(apiURL + "/api/showPosts").then((res) => {
+      return res.data;
+    });
   const { data, error }: any = useSWR(
     "http://localhost:/api/showPosts",
     fetcher
