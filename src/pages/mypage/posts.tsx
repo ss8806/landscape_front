@@ -3,13 +3,14 @@ import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import { useAuth } from "../../hooks/auth";
+import { apiURL } from "../../config.dev";
 
 const Posts = () => {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   useAuth({ middleware: "auth" });
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/showPosts")
+      .get(apiURL + "/api/showPosts")
       .then((res) => {
         return res.data;
       })

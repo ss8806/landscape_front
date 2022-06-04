@@ -1,9 +1,9 @@
 import AppLayout from "../../components/Layouts/AppLayout";
 import { useAuth } from "../../hooks/auth";
-import { SyntheticEvent, useEffect, useState, Suspense, lazy } from "react";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+import { apiURL } from "../../config.dev";
 
 const Mypage = () => {
   const { user } = useAuth({ middleware: "auth" });
@@ -11,7 +11,7 @@ const Mypage = () => {
 
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/mypage")
+      .get(apiURL + "/api/mypage")
       .then((res) => {
         return res.data;
       })
@@ -117,10 +117,6 @@ const Mypage = () => {
                       />
                     )}
                   </div>
-                  {/* <div className="">
-                    カテゴリー：
-                    {like.category_id[0].name}
-                  </div> */}
                   <div className="">{like.title}</div>
 
                   <Link

@@ -7,6 +7,7 @@ import EditName from "./profile_components/EditName";
 import EditEmail from "./profile_components/EditEmail";
 import EditIcon from "./profile_components/EditIcon";
 import EditPassword from "./profile_components/EditPassword";
+import { apiURL } from "../../config.dev";
 
 const Profile = () => {
   useAuth({ middleware: "auth" });
@@ -14,7 +15,7 @@ const Profile = () => {
 
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/user")
+      .get(apiURL + "/api/user")
       .then((res) => {
         return res.data;
       })

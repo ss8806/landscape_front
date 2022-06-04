@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import AleartDialog from "../../components/AlertDialog";
 import useSWR from "swr";
+import { apiURL } from "../../config.dev";
 
 type State = {
   a_id: number;
@@ -16,21 +17,19 @@ type State = {
 const schema = yup.object().shape({
   title: yup.string().required("Please enter title").min(1).max(24),
   category_id: yup.number().required("Please enter category"),
-  // pic1: yup.string().required("Please enter pic1"),
   body: yup.string().required("Please enter body").min(1).max(24),
 });
 
 const EditArticles = () => {
   useAuth({ middleware: "auth" });
   const navigation = useNavigate();
-  // const [error, setError] = useState(false);
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const location = useLocation();
   const { a_id } = location.state as State;
 
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/article/" + a_id + "/edit")
+      .get(apiURL + "/api/article/" + a_id + "/edit")
       .then((res) => {
         return res.data;
       })
@@ -49,8 +48,6 @@ const EditArticles = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
-    // defaultValues: {
-    // },
   });
   yupResolver(schema);
 
@@ -173,18 +170,14 @@ const EditArticles = () => {
                   </label>
                 </div>
                 <input
-                  // name="pic1"
+                  name="pic1"
                   id="pic1"
                   type="file"
                   className="m-auto hidden"
                   accept="image/*"
                   src={data[0].pic1}
-                  // {...register("pic1", { required: true })}
                   onChange={imageHander}
                 />
-                <p className="text-red-500">
-                  {errors.pic1 && "写真を登録して下さい。"}
-                </p>
               </section>
               <div className="mt-5">
                 <label className="" htmlFor="inputBody">

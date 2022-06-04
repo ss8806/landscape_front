@@ -4,13 +4,15 @@ import AppLayout from "../../components/Layouts/AppLayout";
 import useSWR from "swr";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
+import LikeButton from "../../components/LikeButton";
+import { apiURL } from "../../config.dev";
 
 export default function Likes() {
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
-  useAuth({ middleware: "auth" });
+  const user = useAuth({ middleware: "auth" });
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/showLikes")
+      .get(apiURL + "/api/showLikes")
       .then((res) => {
         return res.data;
       })
@@ -54,6 +56,14 @@ export default function Likes() {
                     {like.category_id[0].name}
                   </div> */}
                   <div className="">{like.title}</div>
+                  <div>
+                    <LikeButton
+                      article={data[0]}
+                      auth={user}
+                      is_liked={true}
+                      endpoint={apiURL + data[0].id + "/like"}
+                    />
+                  </div>
                   <Link
                     to={"/article/" + like.id + "/show"}
                     state={{ a_id: like.id }}

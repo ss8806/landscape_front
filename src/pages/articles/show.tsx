@@ -5,6 +5,7 @@ import { useAuth } from "../../hooks/auth";
 import { useLocation } from "react-router-dom";
 import LikeButton from "../../components/LikeButton";
 import useSWR from "swr";
+import { apiURL } from "../../config.dev";
 
 type State = {
   a_id: number;
@@ -18,7 +19,7 @@ const ShowArticle = () => {
 
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/article/" + a_id + "/show")
+      .get(apiURL + "/api/article/" + a_id + "/show")
       .then((res) => {
         return res.data;
       })
@@ -83,8 +84,8 @@ const ShowArticle = () => {
                   <LikeButton
                     article={data[0]}
                     auth={user}
-                    is_liked={data[3]}
-                    endpoint={data[4]}
+                    is_liked={data[3]} // true or false
+                    endpoint={data[4]} ///"http://localhost/api/article/1/like"
                   />
                 ) : (
                   ""

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useState, useRef } from "react";
+import { apiURL } from "../../config.dev";
 
 const schema = yup.object().shape({
   keyword: yup.string().max(10),
@@ -27,7 +28,8 @@ const Filter = () => {
   const fetcher = () =>
     axios
       .get(
-        "http://localhost:/api/articles?keyword=" +
+        apiURL +
+          "/api/articles?keyword=" +
           keyword +
           "&category=" +
           category +

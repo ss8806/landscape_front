@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import { apiURL } from "../../config.dev";
 
 const schema = yup.object().shape({
   title: yup.string().required("Please enter title").min(1).max(24),
@@ -24,7 +25,7 @@ const CreateArticles = () => {
   const pic1Ref = useRef<HTMLInputElement | null>(null);
   const fetcher = () =>
     axios
-      .get("http://localhost:/api/article/create/")
+      .get(apiURL + "/api/article/create/")
       .then((res) => {
         return res.data;
       })
