@@ -13,12 +13,15 @@ const Pager: React.FC<Props> = ({ links, c_page, setPageIndex }) => {
       <ul>
         {links.map((link: any, index: number) => {
           return (
-            //  バックエンドで日本語かする必要あり
+            //  バックエンドで日本語化する必要あり
             <li
               key={index}
-              className="{c_page inline-block mt-3 mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500}"
+              className="{c_page inline-block mt-3 mr-1 mb-1 px-2}"
             >
-              <button onClick={() => setPageIndex(link.url.slice(-1))}>
+              <button
+                className="{mt-3 mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500}"
+                onClick={() => setPageIndex(link.url.slice(-1))}
+              >
                 {link.label}
               </button>
             </li>
