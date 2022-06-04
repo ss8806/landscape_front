@@ -58,6 +58,8 @@ const EditArticles = () => {
   if (!data) return <div>loading......</div>;
   console.log(data);
 
+  const oldpic1 = data[0].pic1;
+
   const imageHander = (event: any) => {
     if (event.target.files === null) {
       return;

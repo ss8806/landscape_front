@@ -13,6 +13,7 @@ import useSWR from "swr";
 const schema = yup.object().shape({
   title: yup.string().required("Please enter title").min(1).max(24),
   category_id: yup.number().required("Please enter category"),
+  picError: yup.number().required("Please enter pic1"),
   body: yup.string().required("Please enter body").min(1).max(24),
 });
 
@@ -20,6 +21,7 @@ const CreateArticles = () => {
   useAuth({ middleware: "auth" });
   const navigation = useNavigate();
   const [pic1, setPic1] = useState<any>("");
+  const pic1Ref = useRef<HTMLInputElement | null>(null);
   const fetcher = () =>
     axios
       .get("http://localhost:/api/article/create/")
@@ -97,11 +99,7 @@ const CreateArticles = () => {
                 className="w-3/4 mt-1 mb-1 block mx-auto pl-2"
                 placeholder="タイトル"
                 required
-                {...register("title", {
-                  required: true,
-                  minLength: 2,
-                  maxLength: 20,
-                })}
+                {...register("title", {})}
               />
               <p className="text-red-500">
                 {errors.title && "タイトルは２文字以上入力して下さい。"}
@@ -147,14 +145,13 @@ const CreateArticles = () => {
                   // name="pic1"
                   id="pic1"
                   type="file"
-                  className="m-auto"
+                  className="m-auto hidden"
                   accept="image/*"
-                  required
-                  {...register("pic", { required: true })}
+                  {...register("picError", { required: true })}
                   onChange={imageHander}
                 />
                 <p className="text-red-500">
-                  {errors.pic1 && "写真を登録して下さい。"}
+                  {errors.picError && "写真を登録して下さい。"}
                 </p>
               </section>
               <div className="mt-5">
