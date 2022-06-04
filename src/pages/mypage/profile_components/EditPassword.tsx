@@ -5,12 +5,15 @@ import axios from "../../../lib/axios";
 import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
-  password: yup.string().required("Please enter title").min(3).max(12),
+  password: yup.string().required("Please enter title").min(4).max(12),
   // password_confirmation: yup
   //   .string()
   //   .required("Please enter title")
-  //   .min(3)
+  //   .min(4)
   //   .max(12),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
 export default function EditPassword() {
@@ -50,17 +53,22 @@ export default function EditPassword() {
           required
           {...register("password")}
         />
-        <div>{errors.password && "3文字以上入力して下さい。"}</div>
+        <p className="text-red-500">
+          {errors.password && "4文字以上入力して下さい。"}
+        </p>
 
-        {/* <input
+        <input
           type="password"
           // name="password_confirmation"
           className="mt-1 block mx-auto"
-          // value={password_confirmation}
-          placeholder="パスワード確認"
+          // value={password_cwonfirmation}
+          placeholder="パスワード(確認)"
           required
-          // {...register("password_confirmation")}
-        /> */}
+          {...register("password_confirmation")}
+        />
+        <p className="text-red-500">
+          {errors.password_confirmation && "上記と一致しません"}
+        </p>
 
         <input
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "

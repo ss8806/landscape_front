@@ -173,7 +173,7 @@ const EditArticles = () => {
                   // name="pic1"
                   id="pic1"
                   type="file"
-                  className="m-auto"
+                  className="m-auto hidden"
                   accept="image/*"
                   src={data[0].pic1}
                   // {...register("pic1", { required: true })}

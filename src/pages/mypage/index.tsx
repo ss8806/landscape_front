@@ -136,7 +136,7 @@ const Mypage = () => {
             <div className="flex m-auto items-center">
               <Link
                 to={"/likes"}
-                className="g:h-60 xl:h-56 md:h-64 sm:h-72 xs:h-72 h-72 text-2xl text-blue-500 im-2 px-4 py-2 border border-transparent font-semibold hover:text-blue-700 font-bold py-2 px-4 "
+                className=" align-middle text-2xl text-blue-500  font-semibold hover:text-blue-700 font-bold "
               >
                 お気に入り一覧
               </Link>

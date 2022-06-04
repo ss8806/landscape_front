@@ -96,9 +96,15 @@ export default function MenuListComposition() {
                     {user ? (
                       <div>
                         <MenuItem component={Link} to="/mypage">
-                          Mypage
+                          マイページ
                         </MenuItem>
-                        <MenuItem onClick={logout}>Logout</MenuItem>
+                        <MenuItem component={Link} to="/posts">
+                          投稿した記事
+                        </MenuItem>
+                        <MenuItem component={Link} to="/likes">
+                          お気に入りの記事
+                        </MenuItem>
+                        <MenuItem onClick={logout}>ログアウト</MenuItem>
                       </div>
                     ) : (
                       <MenuItem component={Link} to="/login">

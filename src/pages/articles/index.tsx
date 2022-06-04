@@ -68,6 +68,7 @@ const Filter = () => {
   const onSubmit = () => {
     setKeyword(inputEl.current.value);
     setCategory(categoryEl.current.value);
+    setPageIndex(0);
   };
 
   const onReset = () => {

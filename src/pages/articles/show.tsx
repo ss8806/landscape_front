@@ -36,55 +36,61 @@ const ShowArticle = () => {
 
   return (
     <AppLayout>
-      <section className="min-h-screen bg-yellow-400 py-20">
+      <section className="min-h-screen bg-yellow-400 flex justify-center items-center py-20">
         <div className="container mx-auto p-12 bg-gray-100 rounded-xl">
-          <div className="text-center">
-            <label htmlFor="inputTitle">タイトル</label>
-            <div className="w-3/4 mt-1 mb-1 block mx-auto pl-2">
-              {data[0].title}
-            </div>
-            <label htmlFor="inputTitle">カテゴリー</label>
-            <div className="w-3/4 mt-1 mb-1 block mx-auto pl-2">
-              {data[1][0].name}
-            </div>
-            <label>投稿者</label>
-            <div className="w-3/4 mt-1 mb-1 block mx-auto pl-2">
-              {data[2][0].name}
-            </div>
-            <section className="text-center">
+          <div className="text-4xl font-bold from-current mb-8">
+            <section>
               <div>
                 <div>
                   {(data[0].pic1 && (
                     <img
                       id="preview"
                       src={awspath + data[0].pic1}
-                      className="d-block mx-auto h-60 h-56"
+                      className="d-block mx-auto h-120"
                     ></img>
                   )) || (
                     <img
                       id="preview"
-                      className="d-block mx-auto h-60 h-56"
+                      className="d-block mx-auto h-120"
                       src={`${process.env.PUBLIC_URL}/landscape.svg`}
                     />
                   )}
                 </div>
               </div>
             </section>
-            <label htmlFor="inputBody">本文</label>
-            <div className="w-3/4 mt-1 mb-1 block mx-auto pl-2">
-              {data[0].body}
-            </div>
-
-            {user ? (
-              <LikeButton
-                article={data[0]}
-                auth={user}
-                is_liked={data[3]}
-                endpoint={data[4]}
-              />
-            ) : (
-              ""
-            )}
+            <section className="w-1/2 m-auto">
+              <p className="m-5">タイトル：{data[0].title}</p>
+              <p className="m-5">カテゴリー：{data[1][0].name}</p>
+              <p className="m-5">
+                投稿者：
+                {data[1][0].icon ? (
+                  <img
+                    id="preview"
+                    src={awspath + user[0].icon}
+                    className="inline-block h-20 p-2"
+                  ></img>
+                ) : (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/avatar-default.svg`}
+                    className="inline-block h-20 p-2"
+                  />
+                )}
+                {data[2][0].name}
+              </p>
+              <p className="m-5">本文：{data[0].body}</p>
+              <div className="m-10">
+                {user ? (
+                  <LikeButton
+                    article={data[0]}
+                    auth={user}
+                    is_liked={data[3]}
+                    endpoint={data[4]}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            </section>
           </div>
         </div>
       </section>

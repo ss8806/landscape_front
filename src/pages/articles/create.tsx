@@ -74,7 +74,7 @@ const CreateArticles = () => {
       .post("http://localhost:/api/article/store", data)
       .then((response) => {
         console.log(response.data);
-        navigation("/mypage");
+        navigation("/");
         toast.success("登録に成功しました。");
       })
       .catch((error) => {
@@ -150,7 +150,7 @@ const CreateArticles = () => {
                   className="m-auto"
                   accept="image/*"
                   required
-                  // {...register("pic", { required: true })}
+                  {...register("pic", { required: true })}
                   onChange={imageHander}
                 />
                 <p className="text-red-500">
