@@ -61,7 +61,7 @@ export default function Likes() {
                       article={data[0]}
                       auth={user}
                       is_liked={true}
-                      endpoint={apiURL + data[0].id + "/like"}
+                      endpoint={apiURL + "/api/article/" + data[0].id + "/like"}
                     />
                   </div>
                   <Link
