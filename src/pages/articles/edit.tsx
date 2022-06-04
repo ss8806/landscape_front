@@ -14,9 +14,10 @@ type State = {
   a_id: number;
 };
 const schema = yup.object().shape({
-  title: yup.string().required("Please enter title").min(2).max(24),
+  title: yup.string().required("Please enter title").min(1).max(24),
   category_id: yup.number().required("Please enter category"),
-  body: yup.string().required("Please enter body").min(2).max(24),
+  // pic1: yup.string().required("Please enter pic1"),
+  body: yup.string().required("Please enter body").min(1).max(24),
 });
 
 const EditArticles = () => {
@@ -180,7 +181,7 @@ const EditArticles = () => {
                   onChange={imageHander}
                 />
                 <p className="text-red-500">
-                  {/* {errors.pic1 && "写真を登録して下さい。"} */}
+                  {errors.pic1 && "写真を登録して下さい。"}
                 </p>
               </section>
               <div className="mt-5">
@@ -201,23 +202,20 @@ const EditArticles = () => {
               <p className="text-red-500">
                 {errors.body && "本文は２文字以上入力して下さい。"}
               </p>
-              <input
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
-                type="submit"
-                value="編集"
-              />
-              {/* <button
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-5 "
-                      onClick={onDelete}
-                    >
-                      削除する
-                    </button> */}
-              <AleartDialog
-                message1="削除する"
-                message2="削除してよろしいですか"
-                message3="削除"
-                clickButton={onDelete}
-              ></AleartDialog>
+
+              <div className="flex justify-center">
+                <input
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-5 "
+                  type="submit"
+                  value="編集"
+                />
+                <AleartDialog
+                  message1="削除する"
+                  message2="削除してよろしいですか"
+                  message3="削除"
+                  clickButton={onDelete}
+                ></AleartDialog>
+              </div>
             </div>
           </form>
         </div>

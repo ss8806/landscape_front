@@ -9,4 +9,5 @@ module.exports = {
     100: "100vh",
   },
   plugins: [],
+  important: true,
 };
