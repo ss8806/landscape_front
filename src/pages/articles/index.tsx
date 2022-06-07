@@ -41,7 +41,8 @@ const Filter = () => {
         return res.data;
       });
   const { data, error }: any = useSWR(
-    "http://localhost:/api/articles?keyword=" +
+    apiURL +
+      "/api/articles?keyword=" +
       keyword +
       "&category=" +
       category +

@@ -2,6 +2,7 @@ import React, { useState, SyntheticEvent } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import image1 from "./logo192.png";
+import { apiURL } from "../../../config.dev";
 
 type Props = {
   icon: any;
@@ -27,7 +28,7 @@ export default function EditIcon({ icon }: Props) {
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     axios
-      .put("http://localhost:/api/editIcon", {
+      .put(apiURL + "/api/editIcon", {
         icon: icon,
       })
       .then((response) => {

@@ -17,7 +17,7 @@ const Profile = () => {
     axios.get(apiURL + "/api/user").then((res) => {
       return res.data;
     });
-  const { data, error }: any = useSWR("http://localhost:/api/user", fetcher);
+  const { data, error }: any = useSWR(apiURL + "/api/user", fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;

@@ -28,10 +28,7 @@ const CreateArticles = () => {
       return res.data;
     });
 
-  const { data, error }: any = useSWR(
-    "http://localhost:/api/article/create/",
-    fetcher
-  );
+  const { data, error }: any = useSWR(apiURL + "api/article/create/", fetcher);
 
   const {
     register,
@@ -70,7 +67,7 @@ const CreateArticles = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     axios
-      .post("http://localhost:/api/article/store", data)
+      .post(apiURL + "/api/article/store", data)
       .then((response) => {
         console.log(response.data);
         navigation("/");

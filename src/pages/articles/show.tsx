@@ -22,7 +22,7 @@ const ShowArticle = () => {
       return res.data;
     });
   const { data, error }: any = useSWR(
-    "http://localhost:/api/article/" + a_id + "/show",
+    apiURL + "/api/article/" + a_id + "/show",
     fetcher
   );
 
@@ -80,7 +80,7 @@ const ShowArticle = () => {
                     article={data[0]}
                     auth={user}
                     is_liked={data[3]} // true or false
-                    endpoint={data[4]} ///"http://localhost/api/article/1/like"
+                    endpoint={data[4]} ///apiURL + "/api/article/1/like"
                   />
                 ) : (
                   ""

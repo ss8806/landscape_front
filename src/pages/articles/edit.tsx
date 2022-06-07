@@ -33,7 +33,7 @@ const EditArticles = () => {
     });
 
   const { data, error }: any = useSWR(
-    "http://localhost:/api/article/" + a_id + "/edit",
+    apiURL + "/api/article/" + a_id + "/edit",
     fetcher
   );
 
@@ -74,7 +74,7 @@ const EditArticles = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     axios
-      .put("http://localhost:/api/article/" + a_id + "/update", data)
+      .put(apiURL + "/api/article/" + a_id + "/update", data)
       .then((response) => {
         console.log(response.data);
         navigation("/mypage");
@@ -88,7 +88,7 @@ const EditArticles = () => {
 
   const onDelete = () => {
     axios
-      .delete("http://localhost:/api/article/" + a_id + "/delete")
+      .delete(apiURL + "/api/article/" + a_id + "/delete")
       .then((response) => {
         navigation("/mypage");
         toast.success("削除に成功しました。");

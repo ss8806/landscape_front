@@ -13,7 +13,7 @@ const Mypage = () => {
     axios.get(apiURL + "/api/mypage").then((res) => {
       return res.data;
     });
-  const { data, error }: any = useSWR("http://localhost:/api/mypage", fetcher);
+  const { data, error }: any = useSWR(apiURL + "/api/mypage", fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;

@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "../../../lib/axios";
 import { toast } from "react-toastify";
+import { apiURL } from "../../../config.dev";
 
 type Props = {
   email: string;
@@ -26,7 +27,7 @@ export default function EditEmail({ email }: Props) {
   const onSubmit = (data: any) => {
     console.log(data);
     axios
-      .put("http://localhost:/api/editEmail", data)
+      .put(apiURL + "/api/editEmail", data)
       .then((response) => {
         console.log(response.data);
         toast.success("登録に成功しました。");

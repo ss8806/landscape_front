@@ -14,10 +14,7 @@ export default function Likes() {
     axios.get(apiURL + "/api/showLikes").then((res) => {
       return res.data;
     });
-  const { data, error }: any = useSWR(
-    "http://localhost:/api/showLikes",
-    fetcher
-  );
+  const { data, error }: any = useSWR(apiURL + "/api/showLikes", fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;

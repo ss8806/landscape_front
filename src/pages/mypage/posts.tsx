@@ -12,10 +12,7 @@ const Posts = () => {
     axios.get(apiURL + "/api/showPosts").then((res) => {
       return res.data;
     });
-  const { data, error }: any = useSWR(
-    "http://localhost:/api/showPosts",
-    fetcher
-  );
+  const { data, error }: any = useSWR(apiURL + "/api/showPosts", fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;
