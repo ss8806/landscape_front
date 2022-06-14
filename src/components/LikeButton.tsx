@@ -5,7 +5,7 @@ import React, {
   lazy,
   Suspense,
 } from "react";
-import axios from "axios";
+import axios from "../lib/axios";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -14,8 +14,6 @@ type Props = {
   is_liked: boolean;
   endpoint: string;
 };
-
-axios.defaults.withCredentials = true; // 設定しないと419エラーがでる
 
 const Lazy = lazy(() => import("./Lazy"));
 

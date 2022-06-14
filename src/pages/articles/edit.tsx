@@ -21,7 +21,7 @@ const schema = yup.object().shape({
 });
 
 const EditArticles = () => {
-  useAuth({ middleware: "auth" });
+  const { user } = useAuth({ middleware: "auth" });
   const navigation = useNavigate();
   const awspath = "https://backend0622.s3.ap-northeast-1.amazonaws.com/";
   const location = useLocation();

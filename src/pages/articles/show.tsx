@@ -59,10 +59,10 @@ const ShowArticle = () => {
               <p className="m-5">カテゴリー：{data[1][0].name}</p>
               <p className="m-5">
                 投稿者：
-                {data[1][0].icon ? (
+                {data[2][0].icon ? (
                   <img
                     id="preview"
-                    src={awspath + user[0].icon}
+                    src={awspath + data[2][0].icon}
                     className="inline-block h-20 p-2"
                   ></img>
                 ) : (
@@ -80,7 +80,8 @@ const ShowArticle = () => {
                     article={data[0]}
                     auth={user}
                     is_liked={data[3]} // true or false
-                    endpoint={data[4]} ///apiURL + "/api/article/1/like"
+                    // endpoint={data[4]} // apiURL + "/api/article/1/like"
+                    endpoint={apiURL + "/api/article/" + a_id + "/like"}
                   />
                 ) : (
                   ""

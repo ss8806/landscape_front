@@ -24,7 +24,7 @@ const CreateArticles = () => {
   const [pic1, setPic1] = useState<any>("");
   const pic1Ref = useRef<HTMLInputElement | null>(null);
   const fetcher = () =>
-    axios.get(apiURL + "/api/article/create/").then((res) => {
+    axios.get(apiURL + "/api/article/create").then((res) => {
       return res.data;
     });
 

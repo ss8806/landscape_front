@@ -1,6 +1,6 @@
 import React, { useState, SyntheticEvent } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios from "../../../lib/axios";
 import image1 from "./logo192.png";
 import { apiURL } from "../../../config.dev";
 
