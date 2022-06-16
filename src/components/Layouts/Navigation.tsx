@@ -25,7 +25,7 @@ const Navigation = () => {
             {user ? (
               <div className=" space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <Link to="/article/create" className="m-auto">
-                  記事を投稿する
+                  写真を投稿する
                 </Link>
                 {/* Settings Dropdown */}
                 <MenuListComposition />

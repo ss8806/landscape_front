@@ -1,5 +1,5 @@
 import AppLayout from "../../components/Layouts/AppLayout";
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import axios from "../../lib/axios";
 import type { Category } from "../../types/Category";
 import { useAuth } from "../../hooks/auth";
@@ -22,7 +22,7 @@ const CreateArticles = () => {
   useAuth({ middleware: "auth" });
   const navigation = useNavigate();
   const [pic1, setPic1] = useState<any>("");
-  const pic1Ref = useRef<HTMLInputElement | null>(null);
+  // const pic1Ref = useRef<HTMLInputElement | null>(null);
   const fetcher = () =>
     axios.get(apiURL + "/api/article/create").then((res) => {
       return res.data;
