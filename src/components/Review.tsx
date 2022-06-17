@@ -26,6 +26,10 @@ export default function Review({ a_id }: Props) {
   let d_value = data[0] ? data[0].rate : null;
   const [value, setValue] = useState<number | null>(d_value);
 
+  useEffect(() => {
+    setValue(value);
+  }, [value]);
+
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;
   console.log(data);
@@ -50,14 +54,14 @@ export default function Review({ a_id }: Props) {
   const handleDelete = () => {
     console.log(data);
     axios
-      .delete(apiURL + "/api/article/" + id + "/review")
+      .delete(apiURL + "/api/article/" + a_id + "/review")
       .then((response) => {
         console.log(response.data);
-        toast.success("削除しました。");
+        setValue(null);
       })
       .catch((error) => {
         console.log(error.data);
-        toast.error("削除に失敗しました");
+        toast.error("削除対象が見つかりません。");
       });
   };
 
@@ -77,23 +81,19 @@ export default function Review({ a_id }: Props) {
           }}
         />
       </Box>
-      <div className="flex justify-center">
+      <div className="flex justify">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
           onClick={handleSubmit}
         >
           評価する
         </button>
-        {data[0] ? (
-          <button
-            className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
-            onClick={handleDelete}
-          >
-            評価を削除
-          </button>
-        ) : (
-          <></>
-        )}
+        <button
+          className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
+          onClick={handleDelete}
+        >
+          評価を削除
+        </button>
       </div>
     </div>
   );
