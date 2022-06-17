@@ -17,7 +17,7 @@ type State = {
 const schema = yup.object().shape({
   title: yup.string().required("Please enter title").min(1).max(24),
   category_id: yup.number().required("Please enter category"),
-  body: yup.string().required("Please enter body").min(1).max(24),
+  body: yup.string().required("Please enter body").min(1).max(100),
 });
 
 const EditArticles = () => {
@@ -191,7 +191,7 @@ const EditArticles = () => {
                 {...register("body")}
               />
               <p className="text-red-500">
-                {errors.body && "本文は２文字以上入力して下さい。"}
+                {errors.body && "本文は1文字以上入力して下さい。"}
               </p>
 
               <div className="flex justify-center">

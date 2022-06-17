@@ -1,4 +1,6 @@
 import AppLayout from "../../components/Layouts/AppLayout";
+import Review from "../../components/Review";
+import AvgRate from "../../components/AvgRate";
 import axios from "../../lib/axios";
 import type { Category } from "../../types/Category";
 import { useAuth } from "../../hooks/auth";
@@ -55,6 +57,9 @@ const ShowArticle = () => {
               </div>
             </section>
             <section className="w-1/2 m-auto">
+              <div className="m-5">
+                <AvgRate avgrate={data[0].avgrate}></AvgRate>
+              </div>
               <p className="m-5">タイトル：{data[0].title}</p>
               <p className="m-5">カテゴリー：{data[1][0].name}</p>
               <p className="m-5">
@@ -77,8 +82,8 @@ const ShowArticle = () => {
               <div className="m-10">
                 {user ? (
                   <LikeButton
-                    article={data[0]}
-                    auth={user}
+                    article={data[0]} // articleモデルのlikedで必要
+                    auth={user} // 同上
                     is_liked={data[3]} // true or false
                     // endpoint={data[4]} // apiURL + "/api/article/1/like"
                     endpoint={apiURL + "/api/article/" + a_id + "/like"}
@@ -86,6 +91,9 @@ const ShowArticle = () => {
                 ) : (
                   ""
                 )}
+              </div>
+              <div className="m-5">
+                {user ? <Review auth={user} a_id={a_id}></Review> : ""}
               </div>
             </section>
           </div>

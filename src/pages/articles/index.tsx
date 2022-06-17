@@ -1,4 +1,5 @@
 import AppLayout from "../../components/Layouts/AppLayout";
+import Review from "../../components/Review";
 import Pager from "../../components/Pager";
 import axios from "../../lib/axios";
 import { Link } from "react-router-dom";
