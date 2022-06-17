@@ -22,6 +22,7 @@ export default function Review({ a_id }: Props) {
     fetcher,
     { suspense: true } // 入れないとエラーがでる
   );
+  const id = data[0] ? data[0].id : null;
   let d_value = data[0] ? data[0].rate : null;
   const [value, setValue] = useState<number | null>(d_value);
 
@@ -29,29 +30,33 @@ export default function Review({ a_id }: Props) {
   if (!data) return <div>loading......</div>;
   console.log(data);
 
-  const onSubmit = (data: any) => {
+  const handleSubmit = () => {
     console.log(data);
     axios
-      .put(apiURL + "/api/article/" + a_id + "review", {
+      .put(apiURL + "/api/article/" + id + "/review", {
+        a_id: a_id,
         value: value,
       })
       .then((response) => {
         console.log(response.data);
-        toast.success("評価しました。");
+        toast.success("レビューしました。");
       })
       .catch((error) => {
         console.log(error.data);
-        toast.error("評価に失敗しました");
+        toast.error("レビューに失敗しました");
       });
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
+    console.log(data);
     axios
-      .delete(apiURL + "/api/article/" + a_id + "/review")
+      .delete(apiURL + "/api/article/" + id + "/review")
       .then((response) => {
-        toast.success("削除に成功しました。");
+        console.log(response.data);
+        toast.success("削除しました。");
       })
       .catch((error) => {
+        console.log(error.data);
         toast.error("削除に失敗しました");
       });
   };
@@ -63,10 +68,33 @@ export default function Review({ a_id }: Props) {
           "& > legend": { mt: 2 },
         }}
       >
-        <Typography component="legend">評価する</Typography>
-        <Rating name="controlled" value={value} />
+        <Rating
+          name="simple-controlled"
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+            console.log(value);
+          }}
+        />
       </Box>
-      <div className="mt-5"></div>
+      <div className="flex justify-center">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
+          onClick={handleSubmit}
+        >
+          評価する
+        </button>
+        {data[0] ? (
+          <button
+            className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
+            onClick={handleDelete}
+          >
+            評価を削除
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }
