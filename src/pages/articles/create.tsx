@@ -28,7 +28,16 @@ const CreateArticles = () => {
       return res.data;
     });
 
-  const { data, error }: any = useSWR(apiURL + "api/article/create/", fetcher);
+  const { data, error }: any = useSWR(apiURL + "api/article/create/", fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // 404では再試行しない。
+      if (error.status === 404) return;
+      // 再試行は3回までしかできません。
+      if (retryCount >= 3) return;
+      // 5秒後に再試行します。
+      setTimeout(() => revalidate({ retryCount }), 5000);
+    },
+  });
 
   const {
     register,

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 type Props = {
   auth: any;
+  article: any;
   a_id: number;
 };
 
@@ -20,7 +21,17 @@ export default function Review({ a_id }: Props) {
   const { data, error }: any = useSWR(
     apiURL + "/api/article/" + a_id + "/review",
     fetcher,
-    { suspense: true } // 入れないとエラーがでる
+    {
+      suspense: true,
+      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+        // 404では再試行しない。
+        if (error.status === 404) return;
+        // 再試行は3回までしかできません。
+        if (retryCount >= 3) return;
+        // 5秒後に再試行します。
+        setTimeout(() => revalidate({ retryCount }), 5000);
+      },
+    }
   );
   const id = data[0] ? data[0].id : null;
   let d_value = data[0] ? data[0].rate : null;
@@ -77,7 +88,6 @@ export default function Review({ a_id }: Props) {
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
-            console.log(value);
           }}
         />
       </Box>
@@ -92,7 +102,7 @@ export default function Review({ a_id }: Props) {
           className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded m-5 "
           onClick={handleDelete}
         >
-          評価を削除
+          評価をリセット
         </button>
       </div>
     </div>

@@ -14,7 +14,16 @@ export default function Likes() {
     axios.get(apiURL + "/api/showLikes").then((res) => {
       return res.data;
     });
-  const { data, error }: any = useSWR(apiURL + "/api/showLikes", fetcher);
+  const { data, error }: any = useSWR(apiURL + "/api/showLikes", fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // 404では再試行しない。
+      if (error.status === 404) return;
+      // 再試行は3回までしかできません。
+      if (retryCount >= 3) return;
+      // 5秒後に再試行します。
+      setTimeout(() => revalidate({ retryCount }), 5000);
+    },
+  });
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading......</div>;

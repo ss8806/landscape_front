@@ -34,7 +34,17 @@ const EditArticles = () => {
 
   const { data, error }: any = useSWR(
     apiURL + "/api/article/" + a_id + "/edit",
-    fetcher
+    fetcher,
+    {
+      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+        // 404では再試行しない。
+        if (error.status === 404) return;
+        // 再試行は3回までしかできません。
+        if (retryCount >= 3) return;
+        // 5秒後に再試行します。
+        setTimeout(() => revalidate({ retryCount }), 5000);
+      },
+    }
   );
 
   const {
