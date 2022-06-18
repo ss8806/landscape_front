@@ -12,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useState, useRef } from "react";
 import { apiURL } from "../../config.dev";
+import AvgRate from "../../components/AvgRate";
 
 const schema = yup.object().shape({
   keyword: yup.string().max(10),
@@ -158,6 +159,8 @@ const Filter = () => {
                     <div className="text-center">
                       更新日：{moment(article.updated).format("YYYY年MM月DD日")}
                     </div>
+                    <AvgRate avgrate={article.avgrate}></AvgRate>
+
                     <Link
                       to={"/article/" + article.article_id + "/show"}
                       state={{ a_id: article.article_id }}

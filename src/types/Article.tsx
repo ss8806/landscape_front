@@ -9,4 +9,5 @@ export type Article = {
   c_id: number;
   c_name: any;
   updated: number;
+  avgrate: number;
 };

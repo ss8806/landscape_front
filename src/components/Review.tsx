@@ -33,7 +33,7 @@ export default function Review({ a_id }: Props) {
       },
     }
   );
-  const id = data[0] ? data[0].id : null;
+  const id = data[0] ? data[0].id : null; // reviewsテーブルのid
   let d_value = data[0] ? data[0].rate : null;
   const [value, setValue] = useState<number | null>(d_value);
 

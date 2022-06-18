@@ -15,11 +15,11 @@ export default function Review({ avgrate }: Props) {
       <div>
         <Box
           sx={{
-            "& > legend": { mt: 5 },
+            "& > legend": { mt: 1 },
           }}
         >
           <Typography component="legend"></Typography>
-          <Rating name="read-only" value={avgrate} readOnly />
+          <Rating name="read-only" value={avgrate} readOnly precision={0.5} />
         </Box>
       </div>
     </Suspense>
