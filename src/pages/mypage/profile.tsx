@@ -7,6 +7,7 @@ import EditName from "./profile_components/EditName";
 import EditEmail from "./profile_components/EditEmail";
 import EditIcon from "./profile_components/EditIcon";
 import EditPassword from "./profile_components/EditPassword";
+import DeleteUser from "./profile_components/DeleteUser";
 import { apiURL } from "../../config.dev";
 
 const Profile = () => {
@@ -39,7 +40,8 @@ const Profile = () => {
           <EditIcon icon={data.icon}></EditIcon>
           <EditName name={data.name}></EditName>
           <EditEmail email={data.email}></EditEmail>
-          <EditPassword></EditPassword>
+          <EditPassword />
+          <DeleteUser />
         </div>
       </section>
     </AppLayout>

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState, useEffect } from "react";
+import React, { SyntheticEvent, useState, useEffect, Suspense } from "react";
 import axios from "../lib/axios";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
@@ -15,11 +15,11 @@ type Props = {
 
 export default function Review({ a_id }: Props) {
   const fetcher = () =>
-    axios.get(apiURL + "/api/article/" + a_id + "/review").then((res) => {
+    axios.get(apiURL + "/api/review/" + a_id + "/review").then((res) => {
       return res.data;
     });
   const { data, error }: any = useSWR(
-    apiURL + "/api/article/" + a_id + "/review",
+    apiURL + "/api/review/" + a_id + "/review",
     fetcher,
     {
       suspense: true,
@@ -48,7 +48,7 @@ export default function Review({ a_id }: Props) {
   const handleSubmit = () => {
     console.log(data);
     axios
-      .put(apiURL + "/api/article/" + id + "/review", {
+      .put(apiURL + "/api/review/" + id + "/review", {
         a_id: a_id,
         value: value,
       })
@@ -65,7 +65,7 @@ export default function Review({ a_id }: Props) {
   const handleDelete = () => {
     console.log(data);
     axios
-      .delete(apiURL + "/api/article/" + a_id + "/review")
+      .delete(apiURL + "/api/review/" + a_id + "/review")
       .then((response) => {
         console.log(response.data);
         setValue(null);
@@ -77,7 +77,7 @@ export default function Review({ a_id }: Props) {
   };
 
   return (
-    <div>
+    <Suspense fallback={<div>loading...</div>}>
       <Box
         sx={{
           "& > legend": { mt: 2 },
@@ -105,6 +105,6 @@ export default function Review({ a_id }: Props) {
           評価をリセット
         </button>
       </div>
-    </div>
+    </Suspense>
   );
 }

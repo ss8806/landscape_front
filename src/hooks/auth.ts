@@ -102,7 +102,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: any = {}) => {
   const logout = async () => {
     if (!error) {
       await axios.post("/logout");
-      mutate("/api/user");
+      mutate();
       toast.success("ログアウトします。");
     }
     window.location.pathname = "/";
