@@ -9,12 +9,12 @@ export default function DeleteUser() {
       .delete(apiURL + "/api/deleteUser")
       .then((response) => {
         console.log(response.data);
-        if (response) {
+        if (response.data === "delete") {
           toast.success("退会に成功しました。");
+          setTimeout(() => {
+            window.location.pathname = "/";
+          }, 3000);
         }
-        setTimeout(() => {
-          window.location.pathname = "/";
-        }, 3000);
       })
       .catch((error) => {
         toast.error("退会処理に失敗しました");
